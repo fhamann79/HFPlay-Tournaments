@@ -1,0 +1,244 @@
+﻿@model Domain.Match
+
+@{
+    ViewBag.Title = "Detalles de Partido";
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@Html.Raw(TempData["SuccessMessage"].ToString())</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<h2>Detalles</h2>
+
+
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Partido</h2>
+        <h3>Torneo: @Model.Date.Tournament.Name</h3>
+        <h4>Grupo: @Model.TournamentGroup.Name</h4>
+        <h4>Fecha: @Model.Date.Name</h4>
+        <p>
+            @Html.ActionLink("Validar", "CloseMatchAdmin", new { id = Model.MatchId }, new { @class = "btn btn-success" })
+            @Html.ActionLink("Editar Informe", "EditMatchReports", new { id = Model.MatchId }, new { @class="btn btn-warning"}) 
+            @Html.ActionLink("Editar Acta", "EditMatchAct", new { id = Model.MatchId }, new { @class = "btn btn-warning" })
+            @Html.ActionLink("Regresar a detalles de fecha", "DetailsDate", new { id = Model.DateId}, new { @class = "btn btn-success"})
+        </p>
+    </div>
+    <div class="col-md-6">
+        <br />
+        <h4><span style="color:red">@Html.DisplayFor(modelItem => Model.Status.Name)</span>  </h4>
+        <h4>@Html.DisplayFor(modelItem => Model.DateTimeEc) <span style="color:red">*</span></h4>
+        <h4>@Html.DisplayFor(modelItem => Model.Stadium.Name)</h4>
+    </div>
+</div>
+<br />
+
+<br />
+
+<div class="row">
+    @foreach (var item in Model.MatchTeams.OrderByDescending(m => m.PlayAsLocal))
+    {
+        
+        <div class="col-md-6">
+            @if (item.PlayAsLocal)
+            {
+            <table>
+                <tr>
+                    <td width="150px" align="center">
+                        @if (!string.IsNullOrEmpty(Model.Local.Logo))
+                        {
+                            <img src="@Url.Content(Model.Local.Logo)" alt="Image" style="width:120px;height:120px;max-width: 100%; height: auto;" />
+                        }
+                    </td>
+                    <td width="200px" align="center">
+                        <h3>@Model.Local.Name</h3>
+                    </td>
+                    <td width="50px" align="center">
+                        <h1 style="text-align:center">@Model.LocalGoals</h1>
+                    </td>
+                </tr>
+
+
+            </table>
+            <p>
+                @Html.ActionLink("Editar Equipo Local", "EditMatchList", new { id = item.MatchTeamId}, new { @class = "btn btn-warning" })
+            </p>
+            }
+            else
+            {
+            <table>
+
+                <tr>
+                    <td width="150px" align="center">
+                        @if (!string.IsNullOrEmpty(Model.Visitor.Logo))
+                        {
+                            <img src="@Url.Content(Model.Visitor.Logo)" alt="Image" style="width:120px;height:120px;max-width: 100%; height: auto;" />
+                        }
+                    </td>
+                    <td width="200px" align="center">
+                        <h3 style="text-align:center">@Model.Visitor.Name</h3>
+                    </td>
+                    <td width="50px" align="center">
+                        <h1>@Model.VisitorGoals</h1>
+                    </td>
+                </tr>
+
+            </table>
+            <p>
+                @Html.ActionLink("Editar Equipo Visitante", "EditMatchList", new { id = item.MatchTeamId }, new { @class = "btn btn-warning" })
+            </p>
+            }
+            
+            <br />
+            
+            <table>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(modelItem => item.PresentsBall) : @Html.DisplayFor(modelItem => item.PresentsBall)
+                        
+                    </th>
+                </tr>
+
+            </table>
+            <br />
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(modelItem => item.MatchTeamPlayers.FirstOrDefault().TeamPlayer.Number)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(modelItem => item.MatchTeamPlayers.FirstOrDefault().TeamPlayer.User.Picture)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(modelItem => item.MatchTeamPlayers.FirstOrDefault().TeamPlayer.User.FullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(modelItem => item.MatchTeamPlayers.FirstOrDefault().IsHeadline)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(modelItem => item.MatchTeamPlayers.FirstOrDefault().Change)
+                        </th>
+                        <th>
+                            Tar.
+                        </th>
+                        <th>
+                            Gol
+                        </th>
+                    </tr>
+                </thead>
+                
+                @foreach (var itemPlayer in item.MatchTeamPlayers.OrderBy(mtp => mtp.TeamPlayer.Number))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => itemPlayer.TeamPlayer.Number)
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(itemPlayer.TeamPlayer.User.Picture))
+                            {
+                                <img src="@Url.Content(itemPlayer.TeamPlayer.User.Picture)" alt="Image" style="width:35px;height:35px;max-width: 100%; height: auto;" />
+
+                            }
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => itemPlayer.TeamPlayer.User.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => itemPlayer.IsHeadline)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => itemPlayer.Change)
+                        </td>
+                        <td>
+                            
+                                @Html.DisplayFor(modelItem => itemPlayer.MatchTeamPlayerCards.Count)
+                                
+                            
+                            
+                        </td>
+                        <td>
+                           
+                                @Html.DisplayFor(modelItem => itemPlayer.MatchTeamPlayerGoals.Count)
+                            
+                            
+                        </td>
+                    </tr>
+                }
+            </table>
+
+        </div>
+    }
+    
+    
+</div>
+<br />
+<div class=" row">
+    
+    <div class=" col-md-6">
+        <h5>Informe Arbitral</h5>
+        @if (!string.IsNullOrEmpty(Model.ArbitrationReport))
+        {
+            <p>@Model.ArbitrationReport</p>
+        }
+        else
+        {
+            <p>No existe informe arbitral.</p>
+        }
+    </div>
+    <div class=" col-md-6">
+        <h5>Informe Delegado</h5>
+        @if (!string.IsNullOrEmpty(Model.DelegatedReport))
+        {
+            <p>@Model.DelegatedReport</p>
+        }
+        else
+        {
+            <p>No existe informe delegado.</p>
+        }
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>ACTA</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Cara Uno</h5>
+                @if (!string.IsNullOrEmpty(Model.AdverseAct))
+                {
+                    <img src="@Url.Content(Model.AdverseAct)" alt="Image" style="width:120px;height:120px;max-width: 100%; height: auto;" />
+                }
+                else
+                {
+                    <p>No existe cara uno de acta.</p>
+                }
+            </div>
+            <div class="col-md-6">
+                <h5>Cara Dos</h5>
+                @if (!string.IsNullOrEmpty(Model.BackAct))
+                {
+                    <img src="@Url.Content(Model.BackAct)" alt="Image" style="width:120px;height:120px;max-width: 100%; height: auto;" />
+                }
+                else
+                {
+                    <p>No existe cara dos de acta.</p>
+                }
+            </div>
+        </div>
+    </div>
+
+</div>
+<p><span style="color:red">*</span> Hora de Ecuador Continental</p>
+

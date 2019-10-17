@@ -1,0 +1,76 @@
+﻿@model Domain.TournamentTeam
+
+@{
+    ViewBag.Title = "Sanciones/Bonificaciones";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@Html.Raw(TempData["SuccessMessage"].ToString())</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
+<h2>Sanciones/Bonificaciones</h2>
+<h4>Equipo: @Html.DisplayFor(Model => Model.Team.Name)</h4>
+@if (!string.IsNullOrEmpty(Model.Team.Logo))
+{
+    <img src="@Url.Content(Model.Team.Logo)" alt="Image" style="width:80px;height:80px;max-width: 100%; height: auto;" />
+}
+<p>
+    @Html.ActionLink("Crear", "CreateSanctionMeliorateTeam", new { id = Model.TournamentTeamId }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Regresar", "DetailsGroup", new { id = Model.TournamentGroupId }, new { @class = "btn btn-success" })
+
+</p>
+
+@if (Model.SanctionMeliorates.Count == 0)
+{
+    <h4>No se ha agregado sanciones/bonificaciones aún.</h4>
+}
+else
+{
+
+    
+
+    
+
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SanctionMeliorates.FirstOrDefault().Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SanctionMeliorates.FirstOrDefault().Value)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SanctionMeliorates.FirstOrDefault().Description)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.SanctionMeliorates)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                        @Html.ActionLink("Borrar", "DeleteSanctionMeliorateTeam", new { id = item.SanctionMeliorateId }, new { @class = "btn btn-danger"})
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+

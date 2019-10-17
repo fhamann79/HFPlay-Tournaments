@@ -1,0 +1,143 @@
+﻿@model List<Domain.MatchTeamPlayer>
+
+@{
+    ViewBag.Title = "Editar Equipo";
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@Html.Raw(TempData["SuccessMessage"].ToString())</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<h2>Editar</h2>
+<h4>Equipo</h4>
+<div class="row">
+    <div class="col-md-12">
+        <table>
+            <tr>
+                <td width="150px" align="center">
+                    @if (!string.IsNullOrEmpty(Model.FirstOrDefault().MatchTeam.Team.Logo))
+                    {
+                        <img src="@Url.Content(Model.FirstOrDefault().MatchTeam.Team.Logo)" alt="Image" style="width:120px;height:120px;max-width: 100%; height: auto;" />
+                    }
+                </td>
+                <td width="200px" align="center">
+                    <h3>@Model.FirstOrDefault().MatchTeam.Team.Name</h3>
+                </td>
+                <td width="50px" align="center">
+                    @if (Model.FirstOrDefault().MatchTeam.PlayAsLocal)
+                    {
+                        <h1 style="text-align:center">@Model.FirstOrDefault().MatchTeam.Match.LocalGoals</h1>
+                    }
+                    else
+                    {
+                        <h1 style="text-align:center">@Model.FirstOrDefault().MatchTeam.Match.VisitorGoals</h1>
+                    }
+
+                </td>
+            </tr>
+
+
+        </table>
+        <br />
+        @using (Html.BeginForm("EditMatchList","Tournaments", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <input id="matchId" name="matchId" type="hidden" value="@Model.FirstOrDefault().MatchTeam.MatchId" />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                    @Html.ActionLink("Regresar a detalles de partido", "DetailsMatch", new { id = Model.FirstOrDefault().MatchTeam.Match.MatchId }, new { @class = "btn btn-success" })
+
+                </div>
+            </div>
+
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().TeamPlayer.Number)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().TeamPlayer.User.Picture)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().TeamPlayer.User.FullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().IsHeadline)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Change)
+                        </th>
+                        <th>
+                            Tar.
+                        </th>
+                        <th>
+                            Gol
+                        </th>
+                        <th>
+                            Acciones
+                        </th>
+                    </tr>
+                </thead>
+                
+                              
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    @Html.HiddenFor(modelItem => Model[i].MatchTeamPlayerId)
+                    @Html.HiddenFor(modelItem => Model[i].MatchTeamId)
+                    @Html.HiddenFor(modelItem => Model[i].TeamPlayerId)
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model[i].TeamPlayer.Number)
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(Model[i].TeamPlayer.User.Picture))
+                            {
+                                <img src="@Url.Content(Model[i].TeamPlayer.User.Picture)" alt="Image" style="width:35px;height:35px;max-width: 100%; height: auto;" />
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model[i].TeamPlayer.User.FullName)
+                        </td>
+                        <td>
+                            @Html.EditorFor(modelItem => Model[i].IsHeadline, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(modelItem => Model[i].IsHeadline, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.EditorFor(modelItem => Model[i].Change, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(modelItem => Model[i].Change, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model[i].MatchTeamPlayerCards.Count)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model[i].MatchTeamPlayerGoals.Count)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Detalles","DetailsMatchTeamPlayer",new { id = Model[i].MatchTeamPlayerId}, new { @class = "btn btn-info"})
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                    @Html.ActionLink("Regresar a detalles de partido", "DetailsMatch", new { id = Model.FirstOrDefault().MatchTeam.Match.MatchId }, new { @class = "btn btn-success" })
+
+                </div>
+            </div>
+        }
+           
+    </div>
+            
+</div>

@@ -1,0 +1,42 @@
+﻿@model Domain.MatchTeamPlayerCard
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MatchTeamPlayerCard</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CardType.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CardType.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MatchTeamPlayer.MatchTeamPlayerId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MatchTeamPlayer.MatchTeamPlayerId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Minute)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Minute)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MatchTeamPlayerCardId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

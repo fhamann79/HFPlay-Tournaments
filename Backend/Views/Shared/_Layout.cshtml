@@ -1,0 +1,82 @@
+﻿@using System.Globalization;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - HFPlay</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    @Styles.Render("~/Content/css")
+    @*@Styles.Render("~/Content/cssbootstrap")*@
+    @Scripts.Render("~/bundles/modernizr")
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-4049042903887852",
+            enable_page_level_ads: true
+        });
+    </script>
+
+</head>
+<body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+        <a href="/" class="navbar-left"><img src="~/Content/logohfplay.png" style="width:50px;height:40px;width: auto; max-height: 100%"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                @*<li class="nav-item active">
+
+                    @Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
+
+                </li>
+                *@
+                @if (User.IsInRole("Admin"))
+                {
+
+                    @Html.Partial("_AdminMenuPartial")
+                }
+                @if (User.IsInRole("TeamManager"))
+                {
+
+                    @Html.Partial("_TeamManagerMenuPartial")
+                }
+                @if (User.IsInRole("User"))
+                {
+
+                    @Html.Partial("_UserMenuPartial")
+                }
+            </ul>
+            @*<form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+                </form>*@
+
+            @Html.Partial("_LoginPartial")
+        </div>
+    </nav>
+
+    <div id="bodycontainer" class="container-fluid">
+
+        @RenderBody()
+        <hr />
+        <footer>
+            
+            <p>&copy; @DateTime.Now.Year - By HFSistemas  -  Server Time: @DateTime.Now  -  Continental Ecuador Time: @DateTime.UtcNow.AddHours(-5).ToString("G", CultureInfo.CreateSpecificCulture("es-EC")) -  UTC Time: @DateTime.UtcNow - Contact: 0983842862</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    @*@Scripts.Render("~/bundles/bootstrap")*@
+    @Scripts.Render("~/bundles/hfplay")
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

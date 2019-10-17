@@ -1,0 +1,185 @@
+﻿@model PagedList.IPagedList<Domain.User >
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Usuarios";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@Html.Raw(TempData["SuccessMessage"].ToString())</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
+<h2>Usuarios</h2>
+
+<p>
+    @Html.ActionLink("Crear Nuevo", "Register", new { }, new { @class = "btn btn-primary" })
+    
+</p>
+
+@using (Html.BeginForm("Index","Users",FormMethod.Get, new { @class = "form-inline my-2 my-lg-0" }))
+{
+    <p>
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, 
+       htmlAttributes: new { @class = "form-control mr-sm-2" , placeholder = "Buscar" })
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+    </p>
+}
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page = page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }),
+    new PagedListRenderOptions
+    {
+        DisplayLinkToIndividualPages = true,
+        DisplayPageCountAndCurrentLocation = true,
+        PageCountAndCurrentLocationFormat = "Página {0} de {1}",
+        DisplayItemSliceAndTotal = true,
+        ItemSliceAndTotalFormat = "Ítem {0} a {1} de {2}",
+    })
+
+<table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>
+                    @Html.ActionLink("Nombres", "Index", 
+                   new { sortOrder = ViewBag.FirstNameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    
+                </th>
+                <th>
+                    @Html.ActionLink("Apellidos", "Index", 
+                   new { sortOrder = ViewBag.LastNameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    
+                </th>
+                <th>
+                    @Html.ActionLink("Cédula", "Index", 
+                   new { sortOrder = ViewBag.IdentificationCardSortParm, currentFilter = ViewBag.CurrentFilter })
+                </th>
+                <th>
+                    @Html.ActionLink("Correo Electrónico","Index", 
+                   new { sortOrder = ViewBag.EmailSortParm, currentFilter = ViewBag.CurrentFilter })
+                    
+                </th>
+                <th>
+                    @Html.ActionLink("Apodo", "Index", 
+                   new { sortOrder = ViewBag.NickNameSortParm, currentFilter = ViewBag.CurrentFilter})
+                    
+                </th>
+                <th>
+                    Fotografia
+                    
+                </th>
+              
+                <th>
+                    @Html.ActionLink("Jugador", "Index", 
+                   new { sortOrder = ViewBag.PlayerSortParm, currentFilter = ViewBag.CurrentFilter })
+                </th>
+                <th>
+                    Número
+                </th>
+                <th>
+                    Directivo
+                </th>
+                <th>
+                    Acciones
+                </th>
+            </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdentificationCard)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NickName)
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Picture))
+                    {
+                        <img src="@Url.Content(item.Picture)" alt="Image" style="width:80px;height:80px;max-width: 100%; height: auto;" />
+                        
+                    }
+
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Points)
+                    </td>*@
+                <td>
+                    @foreach (var tpItem in item.TeamPlayers)
+                    {
+                        if (!string.IsNullOrEmpty(tpItem.Team.Logo))
+                        {
+                            <a href="@Url.Content(string.Format("~/Leagues/DetailsTeam/{0}",tpItem.TeamId))">
+                                <img src="@Url.Content(tpItem.Team.Logo)" alt="Image" style="width:32px;height:32px;max-width: 100%; height: auto;" />
+                            </a>
+                            
+                        }
+                        <br />
+                        <a href="@Url.Content(string.Format("~/Leagues/DetailsTeam/{0}",tpItem.TeamId))">
+                            @Html.DisplayFor(modelItem => tpItem.Team.Name)
+                        </a>
+                        
+                        
+                    }
+
+                </td>
+                <td>
+                    @foreach (var tpItem in item.TeamPlayers)
+                    {
+                        @Html.DisplayFor(modelItem => tpItem.Number)
+                        <br />
+                    }
+                </td>
+                <td>
+                    @foreach (var tpItem in item.TeamManagers)
+                    {
+                        if (!string.IsNullOrEmpty(tpItem.Team.Logo))
+                        {
+                            <a href="@Url.Content(string.Format("~/Leagues/DetailsTeam/{0}",tpItem.TeamId))">
+                                <img src="@Url.Content(tpItem.Team.Logo)" alt="Image" style="width:32px;height:32px;max-width: 100%; height: auto;" />
+                            </a>
+                        }
+                        <br />
+                        <a href="@Url.Content(string.Format("~/Leagues/DetailsTeam/{0}",tpItem.TeamId))">
+                            @Html.DisplayFor(modelItem => tpItem.Team.Name)
+                        </a>
+
+                    }
+
+                </td>
+
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.UserId }, new { @class = "btn btn-warning" })
+                    @*@Html.ActionLink("Detalles", "Details", new { id=item.UserId }, new { @class = "btn btn-info" }) |*@
+                    @Html.ActionLink("Borrar", "DeleteUserAdmin", new { id = item.UserId }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+
+</table>
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page = page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }),
+    new PagedListRenderOptions {
+        DisplayLinkToIndividualPages = true,
+        DisplayPageCountAndCurrentLocation = true,
+        PageCountAndCurrentLocationFormat = "Página {0} de {1}",
+        DisplayItemSliceAndTotal = true,
+        ItemSliceAndTotalFormat = "Ítem {0} a {1} de {2}",
+        
+    })

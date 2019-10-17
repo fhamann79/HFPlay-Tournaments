@@ -1,0 +1,101 @@
+﻿@model Domain.Team
+
+@{
+    ViewBag.Title = "Detalles";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <h4>Equipo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.League.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.League.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Logo)
+        </dt>
+
+        <dd>
+            @if (!string.IsNullOrEmpty(Model.Logo))
+            {
+                <img src="@Url.Content(Model.Logo)" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Initials)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Initials)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.TeamId }) |
+    @Html.ActionLink("Regresar", "Index")
+</p>
+
+<h2>Jugadores</h2>
+
+<p>
+    @Html.ActionLink("Agregar Nuevo", "AddPlayer")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TeamPlayers.FirstOrDefault().User.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TeamPlayers.FirstOrDefault().User.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TeamPlayers.FirstOrDefault().Number)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TeamPlayers.FirstOrDefault().IsAccepted)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.TeamPlayers)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAccepted)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditPlayer", new { id = item.TeamPlayerId }) |
+                @Html.ActionLink("Details", "DetailsPlayer", new { id = item.TeamPlayerId }) |
+                @Html.ActionLink("Delete", "DeletePlayer", new { id = item.TeamPlayerId })
+            </td>
+        </tr>
+    }
+
+</table>
+

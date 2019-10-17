@@ -1,0 +1,25 @@
+﻿1>------ Publicación iniciada: proyecto: Backend, configuración: Release Any CPU ------
+1>C:\Program Files (x86)\Microsoft SDKs\TypeScript\2.3\tsc.exe  --sourcemap --target ES5 --noEmitOnError --listEmittedFiles --locale es-ES "C:\Users\Fernando Hamann\OneDrive\RepoSelf\Repos\HFPlayRepo\Backend\Scripts\index.d.ts"
+1>C:\Program Files (x86)\Microsoft SDKs\TypeScript\2.3\tsc.exe  --sourcemap --target ES5 --noEmitOnError --listEmittedFiles --locale es-ES "C:\Users\Fernando Hamann\OneDrive\RepoSelf\Repos\HFPlayRepo\Backend\Scripts\index.d.ts"
+1>Se transformó Web.config usando C:\Users\Fernando Hamann\OneDrive\RepoSelf\Repos\HFPlayRepo\Backend\Web.Release.config en obj\Release\TransformWebConfig\transformed\Web.config.
+1>El elemento ConnectionString automático transformó Views\Web.config en obj\Release\CSAutoParameterize\transformed\Views\Web.config.
+1>El elemento ConnectionString automático transformó obj\Release\TransformWebConfig\transformed\Web.config en obj\Release\CSAutoParameterize\transformed\Web.config.
+1>Copiando todos los archivos en la ubicación temporal siguiente para el empaquetado y publicación:
+1>obj\Release\Package\PackageTmp.
+1>Iniciar publicación de Web Deploy de la aplicación o paquete en https://hfplay.scm.azurewebsites.net/msdeploy.axd?site=HFPlay ...
+1>Adding ACLs for path (HFPlay)
+1>Adding ACLs for path (HFPlay)
+1>Actualizando el archivo (HFPlay\bin\Backend.dll).
+1>Actualizando el archivo (HFPlay\bin\Backend.pdb).
+1>Actualizando el archivo (HFPlay\Content\assets\Thumbs.db).
+1>Actualizando el archivo (HFPlay\Content\cards.css).
+1>Actualizando el archivo (HFPlay\Views\Leagues\CardsTeamBPlayerAdmin.cshtml).
+1>Adding file (HFPlay\Views\Leagues\CardsTeamC.cshtml).
+1>Adding file (HFPlay\Views\Leagues\CardsTeamCPlayerAdmin.cshtml).
+1>Actualizando el archivo (HFPlay\Views\Leagues\DetailsTeam.cshtml).
+1>Adding ACLs for path (HFPlay)
+1>Adding ACLs for path (HFPlay)
+1>Se publicó correctamente.
+1>La aplicación web se publicó correctamente http://hfplay.azurewebsites.net/
+========== Compilar: 0 correctos, 0 incorrectos, 2 actualizados, 0 omitidos ==========
+========== Publicación: 1 procesados, 0 no procesados, 0 omitidos ==========

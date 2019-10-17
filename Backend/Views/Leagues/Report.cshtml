@@ -1,0 +1,173 @@
+﻿@model Domain.Team
+
+@{
+                /**/
+
+                /**/
+
+                ViewBag.Title = "Reporte";
+
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - HFPlay</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+
+</head>
+<body>
+
+    <h2>Reporte</h2>
+
+    <div>
+        <h4>Equipo</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.League.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.League.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Logo)
+            </dt>
+
+            <dd>
+                @if (!string.IsNullOrEmpty(Model.Logo))
+                {
+                    <img src="@Url.Content(Model.Logo)" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+                }
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Initials)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Initials)
+            </dd>
+
+        </dl>
+    </div>
+
+    <h2>Jugadores Activos</h2>
+
+    @if (Model.TeamPlayers.Where(tp => tp.IsAccepted == true).Count() == 0)
+    {
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <strong>No hay jugadores registrados aún</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+    }
+    else
+    {
+        <h5>Total: @Model.TeamPlayers.Where(tp => tp.IsActive == true).Count()</h5>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TeamPlayers.FirstOrDefault().Number)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TeamPlayers.FirstOrDefault().User.Picture)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TeamPlayers.FirstOrDefault().User.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TeamPlayers.FirstOrDefault().User.LastName)
+                </th>
+                <th>
+                    1
+                </th>
+                <th>
+                    2
+                </th>
+                <th>
+                    3
+                </th>
+                <th>
+                    4
+                </th>
+                <th>
+                    5
+                </th>
+                <th>
+                    6
+                </th>
+                <th>
+                    7
+                </th>
+                <th>
+                    8
+                </th>
+                <th>
+                    9
+                </th>
+                <th>
+                    10
+                </th>
+            </tr>
+
+            @foreach (var item in Model.TeamPlayers.Where(tp => tp.IsActive == true).OrderBy(tp => tp.Number))
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.User.Picture))
+                    {
+                        <img src="@Url.Content(item.User.Picture)" alt="Image" style="width:30px;height:30px;max-width: 100%; height: auto;" />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.LastName)
+                </td>
+                <td><button type="button" class="btn btn-outline-primary">   </button></td>
+                <td><button type="button" class="btn btn-outline-primary">   </button></td>
+                <td><button type="button" class="btn btn-outline-primary">   </button></td>
+                <td><button type="button" class="btn btn-outline-primary">   </button></td>
+                <td><button type="button" class="btn btn-outline-primary">   </button></td>
+                <td><button type="button" class="btn btn-outline-primary">   </button></td>
+                <td><button type="button" class="btn btn-outline-primary">   </button></td>
+                <td><button type="button" class="btn btn-outline-primary">   </button></td>
+                <td><button type="button" class="btn btn-outline-primary">   </button></td>
+                <td><button type="button" class="btn btn-outline-primary">   </button></td>
+            </tr>
+            }
+
+        </table>
+    }
+
+</body>
+
+</html>
+
+
+

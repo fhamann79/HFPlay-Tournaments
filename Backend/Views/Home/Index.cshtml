@@ -1,0 +1,945 @@
+﻿@model Backend.Models.IndexHomeViewModel
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Inicio";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="row">
+
+        <nav class="col-md-2 bg-light sidebar">
+
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Acciones <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+
+                    @Html.ActionLink("Agregar noticia al buzón deportivo", "Create", "NewsItems", new { }, new { @class = "nav-link" })
+                </li>
+                @*<li class="nav-item">
+                        <a class="nav-link" href="#">Solicitar ser dirigente de equipo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Solicitar ser judador de equipo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Mi Historia</a>
+                    </li>*@
+
+            </ul>
+
+
+        </nav>
+
+        @if (User.IsInRole("Admin"))
+        {
+
+
+        }
+        else
+        {
+            if (User.IsInRole("TournamentManager"))
+            {
+
+
+            }
+            else
+            {
+                if (User.IsInRole("LeagueManager"))
+                {
+
+
+                }
+                else
+                {
+                    if (User.IsInRole("TeamManager"))
+                    {
+
+
+                    }
+                    else
+                    {
+                        if (User.IsInRole("Referee"))
+                        {
+
+
+                        }
+                        else
+                        {
+                            if (User.IsInRole("Player"))
+                            {
+
+
+                            }
+                            else
+                            {
+                                if (User.IsInRole("User"))
+                                {
+
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        <div class="col-md-6">
+            <h3>Tablero</h3>
+            <hr />
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>@Html.Raw(TempData["SuccessMessage"].ToString())</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+
+            @if (TempData["FailMessage"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>@Html.Raw(TempData["FailMessage"].ToString())</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            @if (Model.User.TeamPlayers.Count == 0)
+            {
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <strong>No juegas en equipo alguno.</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            else
+            {
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>
+                                <h4>Eres jugador en:</h4>
+
+                            </th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model.User.TeamPlayers)
+                    {
+                        <tr>
+                            <td>
+                                <h5>Equipo</h5>
+                                <br />
+                                @if (!string.IsNullOrEmpty(item.Team.Logo))
+                                {
+                                    <a href="@Url.Content(string.Format("~/Leagues/DetailsTeamPlayer/{0}",item.TeamId))">
+                                        <img src="@Url.Content(item.Team.Logo)" alt="Image" style="width:64px;height:64px;max-width: 100%; height: auto;" />
+                                    </a>
+
+                                }
+                                <br />
+                                <a href="@Url.Content(string.Format("~/Leagues/DetailsTeamPlayer/{0}",item.TeamId))">
+                                    @Html.DisplayFor(modelItem => item.Team.Name)
+                                </a>
+
+                                <p><span>Camiseta número: </span>@Html.DisplayFor(modelItem => item.Number)</p>
+                                <br />
+
+                                @if (item.Team.TournamentTeams.Count == 0)
+                                {
+                                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                        <strong>Tu equipo no participa en torneo alguno.</strong>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <h5>@Html.DisplayFor(modelItem => item.Team.Name) participa en:</h5>
+                                    foreach (var itemTt in item.Team.TournamentTeams)
+                                    {
+                                        <br />
+                                        if (!string.IsNullOrEmpty(itemTt.TournamentGroup.Tournament.Logo))
+                                        {
+
+                                            <img src="@Url.Content(itemTt.TournamentGroup.Tournament.Logo)" alt="Image" style="width:64px;height:64px;max-width: 100%; height: auto;" />
+
+
+                                        }
+                                        <br />
+
+                                        <p><h6>@Html.DisplayFor(modelItem => itemTt.TournamentGroup.Tournament.Name)</h6></p>
+
+                                        <p><b>Grupo: </b>@Html.DisplayFor(modelItem => itemTt.TournamentGroup.Name)</p>
+                                        <br />
+                                        <div class="table-responsive-xl">
+                                            <table>
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th>
+                                                            POS.
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().Team.Logo)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.TournamentTeams.FirstOrDefault().Team.Name)
+                                                        </th>
+                                                        <th>
+                                                            PJ
+                                                        </th>
+                                                        <th>
+                                                            PG
+                                                        </th>
+                                                        <th>
+                                                            PP
+                                                        </th>
+                                                        <th>
+                                                            PE
+                                                        </th>
+                                                        <th>
+                                                            GF
+                                                        </th>
+                                                        <th>
+                                                            GC
+                                                        </th>
+                                                        <th>
+                                                            PTS.
+                                                        </th>
+                                                        <th>
+                                                            GD
+                                                        </th>
+
+                                                    </tr>
+                                                </thead>
+                                                @foreach (var itemTte in Model.TournamentTeams
+                                .Where(tt => tt.TournamentGroupId == itemTt.TournamentGroupId)
+                                .OrderBy(tt => tt.Position))
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <b>@Html.DisplayFor(modelItem => itemTte.Position)</b>
+                                                        </td>
+                                                        <td>
+                                                            @if (!string.IsNullOrEmpty(itemTte.Team.Logo))
+                                                            {
+                                                                <img src="@Url.Content(itemTte.Team.Logo)" alt="Image" style="width:25px;height:25px;max-width: 100%; height: auto;" />
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            <b>@Html.DisplayFor(modelItem => itemTte.Team.Name)</b>
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => itemTte.MatchesPlayed)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => itemTte.MatchesWon)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => itemTte.MatchesLost)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => itemTte.MatchesTied)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => itemTte.FavorGoals)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => itemTte.AgainstGoals)
+                                                        </td>
+                                                        <td>
+                                                            <b>@Html.DisplayFor(modelItem => itemTte.Points)</b>
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => itemTte.DifferenceGoals)
+                                                        </td>
+
+                                                    </tr>
+                                                }
+                                            </table>
+
+                                        </div>
+                                        
+                                        
+
+                                    }
+                                }
+                                <br />
+                                @if (item.Team.Locals.Where(l => l.DateTime > DateTime.UtcNow).ToList().Count == 0)
+                                {
+                                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                        <strong>Tu equipo no tiene partidos próximos como local.</strong>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <h5>Próximos partidos de @Html.DisplayFor(modelItem => item.Team.Name) como local:</h5>
+                                    <br />
+                                    foreach (var itemMatchLocal in item.Team.Locals
+                                        .Where(l => l.DateTime > DateTime.UtcNow)
+                                        .OrderBy(l => l.DateTime).ToList())
+                                    {
+                                        <table>
+                                            
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <b>@itemMatchLocal.DateTimeEc</b><br />
+                                                        <span>@itemMatchLocal.Stadium.Name </span> <br />
+                                                        <span>@itemMatchLocal.Date.Tournament.Name </span><br />
+                                                        <span>Grupo: @itemMatchLocal.TournamentGroup.Name   Fecha: @itemMatchLocal.Date.Name</span><br />
+                                                    </td>
+                                                </tr>
+                                            
+                                            <tr>
+                                                <td width="100px" align="center">
+                                                    @if (!string.IsNullOrEmpty(itemMatchLocal.Local.Logo))
+                                                    {
+                                                        <img src="@Url.Content(itemMatchLocal.Local.Logo)" alt="Image" style="width:50px;height:50px;max-width: 100%; height: auto;" />
+                                                    }
+                                                    <h6>@itemMatchLocal.Local.Name</h6>
+                                                </td>
+                                                <td width="50px" align="center">
+                                                    <h3>Vs.</h3>
+                                                </td>
+                                                <td width="100px" align="center">
+                                                    @if (!string.IsNullOrEmpty(itemMatchLocal.Visitor.Logo))
+                                                    {
+                                                        <img src="@Url.Content(itemMatchLocal.Visitor.Logo)" alt="Image" style="width:50px;height:50px;max-width: 100%; height: auto;" />
+                                                    }
+                                                    <h6>@itemMatchLocal.Visitor.Name</h6>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">
+                                                    
+                                                </td>
+                                                <td width="50px" align="center"></td>
+                                                <td align="center">
+                                                    
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <br />
+                                    }
+                                }
+                                <br />
+                                @if (item.Team.Visitors.Where(l => l.DateTime > DateTime.UtcNow).ToList().Count == 0)
+                                {
+                                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                        <strong>Tu equipo no tiene partidos próximos como visitante.</strong>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <h5>Próximos partidos de @Html.DisplayFor(modelItem => item.Team.Name) como visitante:</h5>
+                                    <br />
+                                    foreach (var itemMatchVisitors in item.Team.Visitors
+                                        .Where(l => l.DateTime > DateTime.UtcNow)
+                                        .OrderBy(l => l.DateTime).ToList())
+                                    {
+                                        <table>
+
+                                            <tr>
+                                                <td colspan="3">
+                                                    <b>@itemMatchVisitors.DateTimeEc</b><br />
+                                                    <span>@itemMatchVisitors.Stadium.Name </span> <br />
+                                                    <span>@itemMatchVisitors.Date.Tournament.Name </span><br />
+                                                    <span>Grupo: @itemMatchVisitors.TournamentGroup.Name   Fecha: @itemMatchVisitors.Date.Name</span><br />
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td width="100px" align="center">
+                                                    @if (!string.IsNullOrEmpty(itemMatchVisitors.Local.Logo))
+                                                    {
+                                                        <img src="@Url.Content(itemMatchVisitors.Local.Logo)" alt="Image" style="width:50px;height:50px;max-width: 100%; height: auto;" />
+                                                    }
+                                                    <h6>@itemMatchVisitors.Local.Name</h6>
+                                                </td>
+                                                <td width="50px" align="center">
+                                                    <h3>Vs.</h3>
+                                                </td>
+                                                <td width="100px" align="center">
+                                                    @if (!string.IsNullOrEmpty(itemMatchVisitors.Visitor.Logo))
+                                                    {
+                                                        <img src="@Url.Content(itemMatchVisitors.Visitor.Logo)" alt="Image" style="width:50px;height:50px;max-width: 100%; height: auto;" />
+                                                    }
+                                                    <h6>@itemMatchVisitors.Visitor.Name</h6>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center"></td>
+                                                <td width="50px" align="center"></td>
+                                                <td align="center"></td>
+                                            </tr>
+                                        </table>
+                                        <br />
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+
+            @if (Model.User.TeamManagers.Count == 0)
+            {
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <strong>No diriges equipo alguno.</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            else
+            {
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>
+                                
+                                <h4>Eres dirigente en:</h4>
+
+                            </th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model.User.TeamManagers)
+                    {
+                        <tr>
+                            <td>
+
+                                @if (!string.IsNullOrEmpty(item.Team.Logo))
+                                {
+                                    <a href="@Url.Content(string.Format("~/Leagues/DetailsTeamTeamManager/{0}",item.TeamId))">
+                                        <img src="@Url.Content(item.Team.Logo)" alt="Image" style="width:64px;height:64px;max-width: 100%; height: auto;" />
+                                    </a>
+
+                                }
+                                <br />
+                                <a href="@Url.Content(string.Format("~/Leagues/DetailsTeamTeamManager/{0}",item.TeamId))">
+                                    @Html.DisplayFor(modelItem => item.Team.Name)
+                                </a>
+
+                                <p><span>Descripción: </span>@Html.DisplayFor(modelItem => item.Description)</p>
+
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+
+           
+
+            @if (User.IsInRole("Admin"))
+            {
+
+
+            }
+            else
+            {
+                if (User.IsInRole("TournamentManager"))
+                {
+
+
+                }
+                else
+                {
+                    if (User.IsInRole("LeagueManager"))
+                    {
+
+
+                    }
+                    else
+                    {
+                        if (User.IsInRole("TeamManager"))
+                        {
+
+
+                        }
+                        else
+                        {
+                            if (User.IsInRole("Referee"))
+                            {
+
+
+                            }
+                            else
+                            {
+                                if (User.IsInRole("Player"))
+                                {
+
+
+                                }
+                                else
+                                {
+                                    if (User.IsInRole("User"))
+                                    {
+
+
+                                    }
+                                    else
+                                    {
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            <h3>Tablas de posiciones y Calendarios</h3>
+            <hr />
+            @if (Model.Tournaments.Count == 0)
+            {
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <strong>No existen torneos.</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            else
+            {
+                <div class="row">
+
+
+                    @foreach (var item in Model.Tournaments.OrderBy(t => t.Order))
+                    {
+
+                    <div class="col-sm-6 col-md-6 col-lg-6 mt-4">
+                        <div class="card">
+
+                            <div class="card-block">
+                                <a href="@Url.Content(string.Format("~/Home/DetailsTournament/{0}",item.TournamentId))">
+                                    <h4 class="card-title mt-3">@Html.DisplayFor(modelItem => item.Name)</h4>
+                                </a>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(item.Logo))
+                            {
+                                <a href="@Url.Content(string.Format("~/Home/DetailsTournament/{0}",item.TournamentId))">
+                                    <img src="@Url.Content(item.Logo)" alt="Image" class="card-img-top" />
+                                </a>
+
+                            }
+
+                            <div class="card-footer mx-auto">
+
+                                @Html.ActionLink("Detalles de Torneo", "DetailsTournament", new { id = item.TournamentId }, new { @class = "btn btn-info btn-lg" })
+
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            }
+
+
+        </div>
+
+
+
+        <div class=" col-md-4">
+            @*<div class=" col-md-4" style="height:600px; overflow-y:scroll">*@
+            <h3>Buzón Deportivo</h3>
+            <hr />
+            @if (Model.NewItems.Count() == 0)
+            {
+                <h5>No existen noticias aún.</h5>
+            }
+            else
+            {
+                using (Html.BeginForm("Index", "Home", FormMethod.Get, new { @class = "form-inline my-2 my-lg-0" }))
+                {
+                    <p>
+                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string,
+                            htmlAttributes: new { @class = "form-control mr-sm-2", placeholder = "Buscar" })
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+                    </p>
+                }
+
+                @Html.PagedListPager(Model.NewItems, page => Url.Action("Index",
+                new { page = page, currentFilter = ViewBag.CurrentFilter }),
+                new PagedListRenderOptions
+                {
+                    DisplayLinkToIndividualPages = true,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = "Página {0} de {1}",
+                    DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = "Ítem {0} a {1} de {2}",
+                })
+
+                <hr />
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-format="fluid"
+                     data-ad-layout-key="+3i+q4+4e-md+ol"
+                     data-ad-client="ca-pub-4049042903887852"
+                     data-ad-slot="6430003489"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+                <hr />
+                foreach (var item in Model.NewItems)
+                {
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @if (!string.IsNullOrEmpty(item.User.Picture))
+                                    {
+                                        <img src="@Url.Content(item.User.Picture)" alt="Image" style="width:40px;height:40px;max-width: 100%; height: auto;" />
+                                    }
+                                    <a href="#"><b>@Html.DisplayFor(modelItem => item.User.NickName)</b> publicó el </a>
+                                    <a href="#">@Html.DisplayFor(modelItem => item.PublicationDate)</a>
+                                </div>
+
+                            </div>
+                            <br>
+                            <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
+                            <p>
+                                @Html.DisplayFor(modelItem => item.Content)
+                                <br><br>
+                                @if (!string.IsNullOrEmpty(item.Picture))
+                                {
+                                    <img src="@Url.Content(item.Picture)" alt="Image" style="width:600px;height:600px;max-width: 100%; height: auto;" />
+                                }
+
+                            </p>
+                        </div>
+                    </div>
+                    <hr />
+
+
+                }
+
+                @Html.PagedListPager(Model.NewItems, page => Url.Action("Index",
+                new { page = page, currentFilter = ViewBag.CurrentFilter }),
+                new PagedListRenderOptions
+                {
+                    DisplayLinkToIndividualPages = true,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = "Página {0} de {1}",
+                    DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = "Ítem {0} a {1} de {2}",
+                })
+            }
+
+
+
+            @if (User.IsInRole("Admin"))
+            {
+
+
+            }
+            else
+            {
+                if (User.IsInRole("TournamentManager"))
+                {
+
+
+                }
+                else
+                {
+                    if (User.IsInRole("LeagueManager"))
+                    {
+
+
+                    }
+                    else
+                    {
+                        if (User.IsInRole("TeamManager"))
+                        {
+
+
+                        }
+                        else
+                        {
+                            if (User.IsInRole("Referee"))
+                            {
+
+
+                            }
+                            else
+                            {
+                                if (User.IsInRole("Player"))
+                                {
+
+
+                                }
+                                else
+                                {
+                                    if (User.IsInRole("User"))
+                                    {
+
+
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        </div>
+
+        
+
+    </div>
+
+
+}
+else
+{
+    <div class="jumbotron jumbotron-billboard">
+        <div class="img"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+
+                    <h1 style="font-size: 3em;">
+                        <span class="shadowtext">HFPlay</span>
+                    </h1>
+                    <h3>
+                        <span class="shadowtext">
+                            Gestionar tus torneos ahora es mucho más sencillo.
+                        </span>
+                    </h3>
+                    @Html.ActionLink("¡Regístrate!", "Register", "Users", new { }, new { @class = "btn btn-primary btn-lg btn-block" })
+                    @*<a href="#" class="btn btn-danger btn-lg">Regístrate </a>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4 col-md-4 col-lg-4 mt-4">
+            <div class="card">
+                <img class="card-img-top" src="@Url.Content("~/Content/Backgrounds/torneos.jpg")">
+                <div class="card-block">
+
+                    <h4 class="card-title mt-3">Torneos</h4>
+                    <div class="card-text">
+                        Cree rapidamente torneos y gestione grupos, fechas, calendario de juegos, tabla de posiciones, carnéts de jugadores y mucho más.
+
+                    </div>
+                </div>
+                <div class="card-footer">
+
+                    <button class="btn btn-danger btn-lg">Más información</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4 mt-4">
+            <div class="card">
+                <img class="card-img-top" src="@Url.Content("~/Content/Backgrounds/ligas.jpg")">
+                <div class="card-block">
+                    <h4 class="card-title mt-3">Ligas</h4>
+                    <div class="card-text">
+                        Administre su Ligas y sus respectivos equipos y jugadores para armar sus propios torneos deportivos.
+
+                    </div>
+                </div>
+                <div class="card-footer">
+
+                    <button class="btn btn-success btn-lg">Más información</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4 mt-4">
+            <div class="card">
+                <img class="card-img-top" src="@Url.Content("~/Content/Backgrounds/jugador2.jpg")">
+                <div class="card-block">
+
+                    <h4 class="card-title mt-3">Usuarios</h4>
+                    <div class="card-text">
+                        Controle a sus usuarios: jugadores, arbitros, directivos, etc. desde un mismo lugar.
+
+                    </div>
+                </div>
+                <div class="card-footer">
+
+                    <button class="btn btn-warning btn-lg">Más información</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <hr />
+    <div class="row">
+        
+        <div class="col-md-6">
+            <h3>Tablas de posiciones y Calendarios</h3>
+            <hr />
+            @if (Model.Tournaments.Count == 0)
+            {
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <strong>No existen torneos.</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            else
+            {
+                <div class="row">
+
+
+                    @foreach (var item in Model.Tournaments.OrderBy(t => t.Order))
+                    {
+
+                        <div class="col-sm-6 col-md-6 col-lg-6 mt-4">
+                            <div class="card">
+
+                                <div class="card-block">
+                                    <a href="@Url.Content(string.Format("~/Home/DetailsTournament/{0}",item.TournamentId))">
+                                        <h4 class="card-title mt-3">@Html.DisplayFor(modelItem => item.Name)</h4>
+                                    </a>
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(item.Logo))
+                                {
+                                    <a href="@Url.Content(string.Format("~/Home/DetailsTournament/{0}",item.TournamentId))">
+                                        <img src="@Url.Content(item.Logo)" alt="Image" class="card-img-top" />
+                                    </a>
+
+                                }
+
+                                <div class="card-footer mx-auto">
+
+                                    @Html.ActionLink("Detalles de Torneo", "DetailsTournament", new { id = item.TournamentId }, new { @class = "btn btn-info btn-lg" })
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+        <div class="col-md-4">
+            <h3>Buzón Deportivo</h3>
+            <hr />
+            @if (Model.NewItems.Count() == 0)
+                {
+                <h5>No existen noticias aún.</h5>
+            }
+            else
+            {
+                using (Html.BeginForm("Index", "Home", FormMethod.Get, new { @class = "form-inline my-2 my-lg-0" }))
+                {
+                    <p>
+                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string,
+                            htmlAttributes: new { @class = "form-control mr-sm-2", placeholder = "Buscar" })
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+                    </p>
+                }
+
+                @Html.PagedListPager(Model.NewItems, page => Url.Action("Index",
+                new { page = page, currentFilter = ViewBag.CurrentFilter }),
+                new PagedListRenderOptions
+                {
+                    DisplayLinkToIndividualPages = true,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = "Página {0} de {1}",
+                    DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = "Ítem {0} a {1} de {2}",
+                })
+
+                <hr />
+
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-format="fluid"
+                     data-ad-layout-key="-81+1p-gq+ar+13k"
+                     data-ad-client="ca-pub-4049042903887852"
+                     data-ad-slot="3967951204"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                    <hr />
+                foreach (var item in Model.NewItems)
+                {
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @if (!string.IsNullOrEmpty(item.User.Picture))
+                                    {
+                                        <img src="@Url.Content(item.User.Picture)" alt="Image" style="width:40px;height:40px;max-width: 100%; height: auto;" />
+                                    }
+                                    <a href="#"><b>@Html.DisplayFor(modelItem => item.User.NickName)</b> publicó el </a>
+                                    <a href="#">@Html.DisplayFor(modelItem => item.PublicationDate)</a>
+                                </div>
+
+                            </div>
+                            <br>
+                            <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
+                            <p>
+                                @Html.DisplayFor(modelItem => item.Content)
+                                <br><br>
+                                @if (!string.IsNullOrEmpty(item.Picture))
+                                {
+                                    <img src="@Url.Content(item.Picture)" alt="Image" style="width:600px;height:600px;max-width: 100%; height: auto;" />
+                                }
+
+                            </p>
+                        </div>
+                    </div>
+                    <hr />
+
+
+                }
+
+                @Html.PagedListPager(Model.NewItems, page => Url.Action("Index",
+                new { page = page, currentFilter = ViewBag.CurrentFilter }),
+                new PagedListRenderOptions
+                {
+                    DisplayLinkToIndividualPages = true,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = "Página {0} de {1}",
+                    DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = "Ítem {0} a {1} de {2}",
+                })
+            }
+        </div>
+        <div class="col-md-2">
+            <h3>Anuncios</h3>
+            <hr />
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-format="fluid"
+                 data-ad-layout-key="+3i+q4+4e-md+ol"
+                 data-ad-client="ca-pub-4049042903887852"
+                 data-ad-slot="6430003489"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+}
+
+
+
+
+
+
+

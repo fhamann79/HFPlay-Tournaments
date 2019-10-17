@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form-inline my-2 my-lg-0" }))
+    {
+        @Html.AntiForgeryToken()
+
+        if (Session["Logo"] != null)
+        {
+            <a title="Manage" href="@Url.Action("Manage", "Users")">
+                <img src="@Url.Content(Session["Logo"].ToString())" alt="Image" style="width:40px;height:40px;max-width: 100%; height: auto;" />
+            </a>
+        }
+
+        <a class="navbar-text mx-sm-2" title="Manage" href="@Url.Action("Manage", "Users")">@string.Format("Hola " + User.Identity.GetUserName() + "!")</a>
+
+        <a class="navbar-text my-2 my-sm-0" href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a>
+
+    }
+}
+else
+{
+
+    <a class="navbar-text mx-sm-2" id="registerLink" href="@Url.Action("Register", "Users")">Registrarse</a>
+                <a class="navbar-text my-2 my-sm-0" id="loginLink" href="@Url.Action("Login", "Account")">Iniciar sesión</a>
+
+}

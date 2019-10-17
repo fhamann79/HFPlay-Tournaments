@@ -1,0 +1,50 @@
+﻿@model Domain.TournamentTeam
+
+@{
+    ViewBag.Title = "Borrar";
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@Html.Raw(ViewBag.ErrorMessage)</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<h2>Borrar</h2>
+
+<h3>¿Está seguro de borrar esto?</h3>
+<div>
+    <h4>Equipo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Team.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Team.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TournamentGroup.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TournamentGroup.Name)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Borrar" class="btn btn-danger" /> |
+            @Html.ActionLink("Regresar", "DetailsGroup", new { id = Model.TournamentGroupId}, new { @class = "btn btn-success"})
+        </div>
+    }
+</div>

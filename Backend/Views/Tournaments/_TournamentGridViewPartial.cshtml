@@ -1,0 +1,54 @@
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "TournamentGridView";
+        settings.CallbackRouteValues = new { Controller = "Tournaments", Action = "TournamentGridViewPartial" };
+        settings.SettingsSearchPanel.Visible = true;
+        settings.Settings.ShowHeaderFilterButton = true;
+
+        settings.CommandColumn.Visible = true;
+
+        settings.KeyFieldName = "TournamentId";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = true;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCellsWindowLimit;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+        settings.Columns.Add(photo =>
+        {
+            photo.FieldName = "Logo";
+
+            photo.EditorProperties().Image(i => i.ImageWidth = 50);
+        });
+        settings.Columns.Add("Name");
+        settings.Columns.Add(i =>
+        {
+            i.FieldName = "IsActive";
+
+            i.EditorProperties().CheckBox(null);
+        });
+        settings.Columns.Add("Order");
+
+        settings.Columns.Add("GroupCount", "# Grupos");
+
+        settings.Columns.Add("DateCount","# Fechas");
+
+
+        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+        settings.Settings.VerticalScrollableHeight = 400;
+        settings.Settings.VerticalScrollBarStyle = GridViewVerticalScrollBarStyle.Virtual;
+
+    });
+
+    if (ViewData["EditError"] != null){
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

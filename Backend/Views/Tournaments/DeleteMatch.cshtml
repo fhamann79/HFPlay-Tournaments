@@ -1,0 +1,106 @@
+﻿@model Domain.Match
+
+@{
+    ViewBag.Title = "Borrar";
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@Html.Raw(ViewBag.ErrorMessage)</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<h2>Borrar Partido</h2>
+
+<h3>¿Está seguro de borrar esto?</h3>
+<div>
+    <h4>Partido</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Date.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Local.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Local.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Stadium.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Stadium.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TournamentGroup.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TournamentGroup.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Visitor.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Visitor.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LocalGoals)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LocalGoals)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VisitorGoals)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VisitorGoals)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Borrar" class="btn btn-danger" /> |
+            @Html.ActionLink("Regresar", "DetailsDate", new {id = Model.DateId }, new { @class = "btn btn-success"})
+        </div>
+    }
+</div>

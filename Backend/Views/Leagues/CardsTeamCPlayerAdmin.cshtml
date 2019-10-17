@@ -1,0 +1,125 @@
+﻿@model Domain.TeamPlayer
+
+@{
+    ViewBag.Title = "Carnets";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - HFPlay</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+
+</head>
+<body style="padding-top: 5px;">
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="twPc-div">
+                <a class="twPc-bgC twPc-block"></a>
+                <div>
+                    <a class="twPc-avatarLink">
+                        <img alt="" src="@Url.Content(Model.User.Picture)" class="twPc-avatarImg">
+                    </a>
+                    <div class="twPc-divUser">
+                        <div class="twPc-divName">
+                            @Html.DisplayFor(model => model.User.FirstName)
+
+                        </div>
+                        <div class="twPc-divName">
+                            @Html.DisplayFor(model => model.User.LastName)
+
+                        </div>
+                        <div class="twPc-Email">
+
+                            @Html.DisplayFor(model => model.User.Email)
+
+                        </div>
+                        <div class="twPc-divName">
+
+                            @Html.DisplayFor(model => model.Team.Name)
+
+                            @if (!string.IsNullOrEmpty(Model.Team.Logo))
+                            {
+                                <img src="@Url.Content(Model.Team.Logo)" alt="Image" class="twPc-teamLogo" />
+                            }
+
+                        </div>
+                    </div>
+                    <div class="twPc-divStats">
+                        <ul class="twPc-Arrange">
+                            <li class="twPc-ArrangeSizeFit">
+                                <a href="#">
+                                    <span class="twPc-StatLabel twPc-block">@Html.DisplayNameFor(model => model.User.Birthdate)</span>
+                                    <span class="twPc-StatValue">@Html.DisplayFor(model => model.User.Birthdate)</span>
+                                </a>
+                            </li>
+                            <li class="twPc-ArrangeSizeFit">
+                                <a href="#">
+                                    <span class="twPc-StatLabel twPc-block">@Html.DisplayNameFor(model => model.User.IdentificationCard)</span>
+                                    <span class="twPc-StatValue">@Html.DisplayFor(model => model.User.IdentificationCard)</span>
+                                </a>
+                            </li>
+                            <li class="twPc-ArrangeSizeFit">
+                                <a href="#">
+                                    <span class="twPc-StatLabel twPc-block">@Html.DisplayNameFor(model => model.Number)</span>
+                                    <span class="twPc-Number">@Html.DisplayFor(model => model.Number)</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            @*<div class="twPc-div" style="text-align:center">
+                    <div style="margin:auto">
+                        <br />
+                        <br />
+                        <br />
+                        <h6>Ing. Roberto Acosta</h6>
+                        <h6>ORGANIZADOR</h6>
+                        <h6>Válido para el periodo 2018 - 2019</h6>
+                        <span class="twPc-StatValue">http://hfplay.azurewebsites.net</span>
+                    </div>
+
+                </div>*@
+            <div class="twPc-div" style="text-align:center">
+                <div style="margin:auto">
+                    <br />
+                    <br />
+                    <br />
+                    <h6>Ing. Ricardo López</h6>
+                    <h6>PRESIDENTE COMISIÓN DISCIPLINA</h6>
+                    <h6>Válido para el periodo 2019 - 2021</h6>
+                    <span class="twPc-StatValue">http://www.hfplay.org</span>
+                    <span class="twPc-StatValue">Powered by HFSISTEMAS</span>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+</body>
+</html>
+
+
+

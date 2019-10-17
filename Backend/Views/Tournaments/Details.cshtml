@@ -1,0 +1,208 @@
+﻿@model Domain.Tournament
+
+@{
+    ViewBag.Title = "Detalles";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@Html.Raw(TempData["SuccessMessage"].ToString())</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<h2>Detalles</h2>
+
+<div >
+    <h4>Torneo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Logo)
+        </dt>
+
+        <dd>
+            @if (!string.IsNullOrEmpty(Model.Logo))
+            {
+                <img src="@Url.Content(Model.Logo)" class=".img-fluid" alt="Image" style="width:200px;height:200px;max-width: 100%; height: auto;" />
+            }
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Crear Grupo", "CreateGroup", new { id = Model.TournamentId }, new { @class = "btn btn-primary" }) |
+    @Html.ActionLink("Crear Fecha", "CreateDate", new { id = Model.TournamentId }, new { @class = "btn btn-secondary" }) |
+    @Html.ActionLink("Crear Sancion", "CreateSanction", new { id = Model.TournamentId }, new { @class = "btn btn-info" }) |
+    @Html.ActionLink("Regresar", "Index", new { }, new { @class = "btn btn-success"})
+    
+</p>
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>Grupos</h4>
+        @if (Model.TournamentGroups.Count == 0)
+        {
+            <h5>No hay grupos registrados aún</h5>
+        }
+        else
+        {
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.TournamentGroups.FirstOrDefault().Name)
+                        </th>
+                        <th>
+                            # Equipos
+                        </th>
+                        <th>
+                            Acciones
+                        </th>
+                    </tr>
+                </thead>
+                    @foreach (var item in Model.TournamentGroups.OrderBy(g => g.Name))
+                {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TournamentTeams.Count)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Editar", "EditGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-warning" }) |
+                                @Html.ActionLink("Detalles", "DetailsGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-info" }) |
+                                @Html.ActionLink("Borrar", "DeleteGroup", new { id = item.TournamentGroupId }, new { @class = "btn btn-danger" })
+                            </td>
+                        </tr>
+                    }
+
+            </table>
+        }
+    </div>
+
+    <div class="col-md-6">
+        <h4>Fechas</h4>
+        @if (Model.Dates.Count == 0)
+        {
+            <h5>No hay fechas registradas aún</h5>
+        }
+        else
+        {
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Dates.FirstOrDefault().Name)
+                        </th>
+                        <th>
+                            # Partidos
+                        </th>
+                        <th>
+                            Acciones
+                        </th>
+                    </tr>
+                </thead>
+                    @foreach (var item in Model.Dates.OrderBy(d => d.Name))
+                {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Matches.Count)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Editar", "EditDate", new { id = item.DateId }, new { @class = "btn btn-warning" }) |
+                                @Html.ActionLink("Detalles", "DetailsDate", new { id = item.DateId }, new { @class = "btn btn-info" }) |
+                                @Html.ActionLink("Borrar", "DeleteDate", new { id = item.DateId }, new { @class = "btn btn-danger" })
+                            </td>
+                        </tr>
+                    }
+
+            </table>
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h4>Sanciones</h4>
+        @if (Model.Sanctions.Count == 0)
+        {
+            <h5>No hay sanciones registradas aún</h5>
+        }
+        else
+        {
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Sanctions.FirstOrDefault().Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Sanctions.FirstOrDefault().PenaltyFee)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Sanctions.FirstOrDefault().NumberOfMatchs)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Sanctions.FirstOrDefault().NumberOfMonths)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Sanctions.FirstOrDefault().NumberOfYears)
+                        </th>
+                        <th>
+                            Acciones
+                        </th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model.Sanctions.OrderBy(g => g.Description))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PenaltyFee)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumberOfMatchs)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumberOfMonths)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumberOfYears)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Editar", "EditSanction", new { id = item.SanctionId }, new { @class = "btn btn-warning" }) |
+                            @Html.ActionLink("Detalles", "DetailsSanction", new { id = item.SanctionId }, new { @class = "btn btn-info" }) |
+                            @Html.ActionLink("Borrar", "DeleteSanction", new { id = item.SanctionId }, new { @class = "btn btn-danger" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        }
+    </div>
+
+</div>
+
+
+

@@ -1,0 +1,195 @@
+﻿@model Domain.Team
+
+@{
+    ViewBag.Title = "Detalles";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@Html.Raw(TempData["SuccessMessage"].ToString())</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
+<h2>Detalles</h2>
+
+<div>
+    <h4>Equipo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.League.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.League.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Logo)
+        </dt>
+
+        <dd>
+            @if (!string.IsNullOrEmpty(Model.Logo))
+            {
+                <img src="@Url.Content(Model.Logo)" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Initials)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Initials)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @*@Html.ActionLink("Editar", "Edit", new { id = Model.TeamId }, new { @class = "btn btn-warning" }) |
+    @Html.ActionLink("Agregar Jugador", "AddPlayerTeamManager", new { id = Model.TeamId }, new { @class = "btn btn-primary" }) |
+    @Html.ActionLink("Agregar Dirigente", "AddManagerTeamManager", new { id = Model.TeamId }, new { @class = "btn btn-primary" }) |
+    @Html.ActionLink("Regresar", "DetailsLeaguesTeamManager", new { id = Model.LeagueId }, new { @class = "btn btn-success" })*@
+</p>
+
+<h2>Jugadores</h2>
+
+@if (Model.TeamPlayers.Where(tp => tp.IsAccepted == true).Count() == 0)
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>No hay jugadores registrados aún</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+}
+else
+{
+    <h5>Total: @Model.TeamPlayers.Count</h5>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamPlayers.FirstOrDefault().User.Picture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamPlayers.FirstOrDefault().User.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamPlayers.FirstOrDefault().User.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamPlayers.FirstOrDefault().Number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamPlayers.FirstOrDefault().IsAccepted)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.TeamPlayers.Where(tp => tp.IsAccepted == true).OrderBy(tp => tp.Number))
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.User.Picture))
+                    {
+                        <img src="@Url.Content(item.User.Picture)" alt="Image" style="width:50px;height:50px;max-width: 100%; height: auto;" />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsAccepted)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Editar", "EditPlayerTeamManager", new { id = item.TeamPlayerId }, new { @class = "btn btn-warning" }) |
+                    @Html.ActionLink("Details", "DetailsPlayer", new { id = item.TeamPlayerId }, new { @class = "btn btn-info" }) |
+                    @Html.ActionLink("Borrar", "DeletePlayerTeamManager", new { id = item.TeamPlayerId }, new { @class = "btn btn-danger" })*@
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+<h2>Dirigentes</h2>
+
+@if (Model.TeamManagers.Where(tp => tp.IsAccepted == true).Count() == 0)
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>No hay dirigentes registrados aún</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamManagers.FirstOrDefault().User.Picture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamManagers.FirstOrDefault().User.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamManagers.FirstOrDefault().User.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamManagers.FirstOrDefault().Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamManagers.FirstOrDefault().IsAccepted)
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model.TeamManagers.Where(tp => tp.IsAccepted == true).OrderBy(tp => tp.User.LastName))
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.User.Picture))
+                    {
+                        <img src="@Url.Content(item.User.Picture)" alt="Image" style="width:50px;height:50px;max-width: 100%; height: auto;" />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsAccepted)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+}

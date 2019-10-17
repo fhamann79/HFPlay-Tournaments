@@ -1,0 +1,53 @@
+﻿@model Backend.Models.MatchView
+
+@{
+    ViewBag.Title = "Acta";
+}
+
+<h2>Acta</h2>
+
+
+@using (Html.BeginForm("EditMatchAct", "Tournaments", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Acta</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MatchId)
+        @Html.HiddenFor(model => model.AdverseAct)
+        @Html.HiddenFor(model => model.BackAct)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AdverseActFile, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <span class="btn btn-default btn-file">
+                    @Html.TextBoxFor(modelo => modelo.AdverseActFile, new { type = "file" })
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BackActFile, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <span class="btn btn-default btn-file">
+                    @Html.TextBoxFor(modelo => modelo.BackActFile, new { type = "file" })
+                </span>
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+                @Html.ActionLink("Regresar a detalles de partido", "DetailsMatch", new { id = Model.MatchId}, new { @class = "btn btn-success"})
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    
+</div>

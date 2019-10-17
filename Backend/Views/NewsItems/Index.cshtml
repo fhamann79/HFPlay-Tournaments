@@ -1,0 +1,163 @@
+﻿@model IEnumerable<Domain.NewsItem>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@Html.Raw(TempData["SuccessMessage"].ToString())</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@Html.Raw(TempData["FailMessage"].ToString())</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<h2>Lista de Noticias</h2>
+
+<p>
+    @Html.ActionLink("Crear", "Create", new { }, new { @class = "btn btn-primary"})
+</p>
+
+<h3>Noticias por aprobar</h3>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.User.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Content)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PublicationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModificationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Picture)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsApproved)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Where(m => m.IsApproved == false).OrderBy(m => m.PublicationDate)) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Content)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PublicationDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ModificationDate)
+        </td>
+        <td>
+            @if (!string.IsNullOrEmpty(item.Picture))
+            {
+                <img src="@Url.Content(item.Picture)" alt="Image" style="width:200px;height:200px;max-width: 100%; height: auto;" />
+            }
+            
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsApproved)
+        </td>
+        <td>
+            @Html.ActionLink("Aprobar", "Approve", new { id = item.NewsItemId }, new { @class = "btn btn-success" })
+            @Html.ActionLink("No aprobar", "NotApprove", new { id = item.NewsItemId }, new { @class = "btn btn-danger" })
+            @Html.ActionLink("Editar", "Edit", new { id=item.NewsItemId }, new { @class = "btn btn-warning"}) 
+            @Html.ActionLink("Detalles", "Details", new { id=item.NewsItemId }, new { @class = "btn btn-info" }) 
+            @Html.ActionLink("Borrar", "Delete", new { id=item.NewsItemId }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>
+
+<h3>Noticias aprobadas</h3>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.User.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Content)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PublicationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModificationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Picture)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsApproved)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Where(m => m.IsApproved == true).OrderByDescending(m => m.PublicationDate))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PublicationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModificationDate)
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.Picture))
+                {
+                    <img src="@Url.Content(item.Picture)" alt="Image" style="width:200px;height:200px;max-width: 100%; height: auto;" />
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsApproved)
+            </td>
+            <td>
+                @Html.ActionLink("Aprobar", "Approve", new { id = item.NewsItemId }, new { @class = "btn btn-success" })
+                @Html.ActionLink("No aprobar", "NotApprove", new { id = item.NewsItemId }, new { @class = "btn btn-danger" })
+                @Html.ActionLink("Editar", "Edit", new { id = item.NewsItemId }, new { @class = "btn btn-warning" })
+                @Html.ActionLink("Detalles", "Details", new { id = item.NewsItemId }, new { @class = "btn btn-info" })
+                @Html.ActionLink("Borrar", "Delete", new { id = item.NewsItemId }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
+
+</table>

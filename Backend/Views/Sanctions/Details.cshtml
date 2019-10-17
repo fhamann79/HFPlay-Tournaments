@@ -1,0 +1,58 @@
+﻿@model Domain.Sanction
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Sanction</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PenaltyFee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PenaltyFee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfMatchs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfMatchs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfMonths)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfMonths)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfYears)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfYears)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SanctionId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

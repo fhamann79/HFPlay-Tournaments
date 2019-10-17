@@ -1,0 +1,35 @@
+﻿<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Admin
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="max-height:200px; overflow-y:auto">
+        <div class="dropdown-header">GESTIÓN DE TORNEOS</div>
+        
+        @Html.ActionLink("Torneos", "Index", "Tournaments", new { area = "" }, new { @class = "dropdown-item" })
+        @Html.ActionLink("Grupos de Torneo", "Index", "TournamentGroups", new { area = "" }, new { @class = "dropdown-item" })
+        @Html.ActionLink("Tabla", "Index", "TournamentTeams", new { area = "" }, new { @class = "dropdown-item" })
+        @Html.ActionLink("Estadios", "Index", "Stadia", new { area = "" }, new { @class = "dropdown-item" })
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-header">GESTIÓN DE LIGAS</div>
+        
+        @Html.ActionLink("Ligas", "Index", "Leagues", new { area = "" }, new { @class = "dropdown-item" })
+        @Html.ActionLink("Equipos", "Index", "Teams", new { area = "" }, new { @class = "dropdown-item" })
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-header">GESTIÓN DE CONTENIDO</div>
+        
+        @Html.ActionLink("Noticias", "Index", "NewsItems", new { area = "" }, new { @class = "dropdown-item" })
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-header">GESTIÓN DE USUARIOS</div>
+        
+        @Html.ActionLink("Lista Usuarios", "Index", "Users", new { area = "" }, new { @class = "dropdown-item" })
+        @Html.ActionLink("Agregar Rol", "AddRol", "Users", new { area = "" }, new { @class = "dropdown-item" })
+
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-header">ENTIDADES MENORES</div>
+
+        @Html.ActionLink("Tipos de Goles", "Index", "GoalTypes", new { area = "" }, new { @class = "dropdown-item" })
+        @Html.ActionLink("Tipos de Tarjetas", "Index", "CardTypes", new { area = "" }, new { @class = "dropdown-item" })
+        @Html.ActionLink("Sanciones", "Index", "Sanctions", new { area = "" }, new { @class = "dropdown-item" })
+        
+    </div>
+</li>

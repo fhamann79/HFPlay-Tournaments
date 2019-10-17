@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Domain.League>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h4>Ligas</h4>
+
+<p>
+    @Html.ActionLink("Crear Nuevo", "Create", new { } , new { @class = "btn btn-primary"})
+</p>
+<table class="table table-bordered table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Logo)
+            </th>
+            <th>
+                # Equipos
+            </th>
+            <th>
+                Acciones
+            </th>
+        </tr>
+    </thead>
+        
+
+        @foreach (var item in Model.OrderBy(m => m.Name))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Logo))
+                    {
+                        <img src="@Url.Content(item.Logo)" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+                    }
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teams.Count)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.LeagueId }, new { @class = "btn btn-warning" }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.LeagueId }, new { @class = "btn btn-info" }) |
+                    @Html.ActionLink("Borrar", "Delete", new { id = item.LeagueId }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+
+</table>

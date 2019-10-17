@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Domain.Sanction>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PenaltyFee)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfMatchs)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfMonths)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfYears)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PenaltyFee)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberOfMatchs)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberOfMonths)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberOfYears)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SanctionId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SanctionId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SanctionId })
+        </td>
+    </tr>
+}
+
+</table>

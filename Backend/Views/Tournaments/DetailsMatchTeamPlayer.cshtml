@@ -1,0 +1,177 @@
+﻿@model Domain.MatchTeamPlayer
+
+@{
+    ViewBag.Title = "Detalle";
+}
+
+<h2>Detalle</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@Html.Raw(TempData["SuccessMessage"].ToString())</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<div>
+    <h4>Jugador</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Equipo
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MatchTeam.Team.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TeamPlayer.User.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TeamPlayer.User.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TeamPlayer.User.Picture)
+        </dt>
+
+        <dd>
+            @if (!string.IsNullOrEmpty(Model.TeamPlayer.User.Picture))
+            {
+                <img src="@Url.Content(Model.TeamPlayer.User.Picture)" alt="Image" style="width:80px;height:80px;max-width: 100%; height: auto;" />
+
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsHeadline)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsHeadline)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Change)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Change)
+        </dd>
+
+    </dl>
+    <p>
+        @Html.ActionLink("Agregar Tarjeta", "AddCardToPlayer", new { id = Model.MatchTeamPlayerId }, new { @class = "btn btn-primary"}) 
+        @Html.ActionLink("Agregar Gol", "AddGoalToPlayer", new { id = Model.MatchTeamPlayerId }, new { @class = "btn btn-secondary" })
+        @Html.ActionLink("Regresar", "EditMatchList", new { id = Model.MatchTeamId}, new { @class = "btn btn-warning"})
+    </p>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h4>Tarjetas</h4>
+        <hr />
+        @if (Model.MatchTeamPlayerCards.Count == 0)
+        {
+            <h5>No hay tarjetas registradas aún</h5>
+        }
+        else
+        {
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MatchTeamPlayerCards.FirstOrDefault().CardType.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MatchTeamPlayerCards.FirstOrDefault().Minute)
+                        </th>
+                        <th>
+                            Sanciones
+                        </th>
+                        <th>
+                            Acciones
+                        </th>
+                    </tr>
+                </thead>
+
+                @foreach (var item in Model.MatchTeamPlayerCards)
+                {
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CardType.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Minute)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CardSanctions.Count)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Detalles", "DetailsCard", new { id = item.MatchTeamPlayerCardId }, new { @class = "btn btn-info" })
+                            @Html.ActionLink("Editar", "EditCard", new { id = item.MatchTeamPlayerCardId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Borrar", "DeleteCard", new { id = item.MatchTeamPlayerCardId }, new { @class = "btn btn-danger" })
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+        
+    </div>
+    <div class="col-md-6">
+        <h4>Goles</h4>
+        <hr />
+        @if (Model.MatchTeamPlayerCards.Count == 0)
+        {
+            <h5>No hay goles registrados aún</h5>
+        }
+        else
+        {
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MatchTeamPlayerGoals.FirstOrDefault().GoalType.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MatchTeamPlayerGoals.FirstOrDefault().Minute)
+                        </th>
+                        <th>
+                            Acciones
+                        </th>
+                    </tr>
+                </thead>
+
+                @foreach (var item in Model.MatchTeamPlayerGoals)
+                {
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GoalType.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Minute)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Detalles", "DetailsGoal", new { id = item.MatchTeamPlayerGoalId }, new { @class = "btn btn-info" })
+                            @Html.ActionLink("Editar", "EditGoal", new { id = item.MatchTeamPlayerGoalId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Borrar", "DeleteGoal", new { id = item.MatchTeamPlayerGoalId }, new { @class = "btn btn-danger" })
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+
+    </div>
+
+</div>
+
+
+
+
+
