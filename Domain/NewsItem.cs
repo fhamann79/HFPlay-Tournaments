@@ -40,6 +40,11 @@ namespace Domain
         [Display(Name = "Imagen")]
         public string Picture { get; set; }
 
+        [DataType(DataType.Url)]
+        [MaxLength(256, ErrorMessage = "El tamaño máximo para el campo {0} es {1} caracteres")]
+        [Display(Name = "Video Facebook")]
+        public string FacebookVideo { get; set; }
+
         [Display(Name = "¿Es aprobado?")]
         public bool IsApproved { get; set; }
 

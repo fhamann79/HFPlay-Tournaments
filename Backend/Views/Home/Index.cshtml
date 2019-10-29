@@ -900,6 +900,11 @@ else
                                     <img src="@Url.Content(item.Picture)" alt="Image" style="width:600px;height:600px;max-width: 100%; height: auto;" />
                                 }
 
+                                @if (!string.IsNullOrEmpty(item.FacebookVideo))
+                                {
+                                    <iframe src="@Url.Encode(item.FacebookVideo)" width="560" height="315" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+                                }
+
                             </p>
                         </div>
                     </div>
