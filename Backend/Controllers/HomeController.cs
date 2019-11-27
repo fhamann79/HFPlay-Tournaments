@@ -110,7 +110,7 @@ namespace Backend.Controllers
 
             news = news.OrderByDescending(n => n.PublicationDate);
 
-            int pageSize = 5;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             indexHomeViewModel.NewItems = news.ToPagedList(pageNumber, pageSize);
             

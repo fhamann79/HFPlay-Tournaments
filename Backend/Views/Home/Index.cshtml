@@ -616,7 +616,7 @@
                             <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
                             <p>
                                 @Html.DisplayFor(modelItem => item.Content)
-                                <br><br>
+                                <br>
                                 @if (!string.IsNullOrEmpty(item.FacebookVideo))
                                 {
                                     <div class="facebook-responsive">
@@ -624,7 +624,7 @@
                                     </div>
 
                                 }
-                                <br><br>
+                                <br>
                                 @if (!string.IsNullOrEmpty(item.Picture))
                                 {
                                     <img src="@Url.Content(item.Picture)" alt="Image" style="width:600px;height:600px;max-width: 100%; height: auto;" />
@@ -901,7 +901,7 @@ else
                             <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
                             <p>
                                 @Html.DisplayFor(modelItem => item.Content)
-                                <br><br>
+                                <br>
                                 @if (!string.IsNullOrEmpty(item.FacebookVideo))
                                 {
                                     <div class="facebook-responsive">
@@ -909,7 +909,7 @@ else
                                     </div>
                                     
                                 }
-                                <br><br>
+                                <br>
                                 @if (!string.IsNullOrEmpty(item.Picture))
                                 {
                                     <img src="@Url.Content(item.Picture)" alt="Image" style="width:600px;height:600px;max-width: 100%; height: auto;" />
