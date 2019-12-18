@@ -19,5 +19,9 @@ namespace Domain
         public string Logo { get; set; }
 
         public virtual ICollection<Team> Teams { get; set; }
+
+        public virtual ICollection<LeagueManager> LeagueManagers { get; set; }
+
+        public virtual ICollection<LeagueCredentialLogo> LeagueCredentialLogos { get; set; }
     }
 }

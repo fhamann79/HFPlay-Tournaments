@@ -35,5 +35,7 @@ namespace Domain
 
         public virtual ICollection<Sanction> Sanctions { get; set; }
 
+        public virtual ICollection<TournamentManager> TournamentManagers { get; set; }
+
     }
 }

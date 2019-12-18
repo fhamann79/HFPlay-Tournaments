@@ -99,6 +99,10 @@ namespace Domain
 
         public virtual ICollection<NewsItem> News { get; set; }
 
+        public virtual ICollection<LeagueManager> LeagueManagers { get; set; }
+
+        public virtual ICollection<TournamentManager> TournamentManagers { get; set; }
+
     }
 
 }

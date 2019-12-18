@@ -58,6 +58,8 @@
     <Compile Include="Group.cs" />
     <Compile Include="GroupUser.cs" />
     <Compile Include="League.cs" />
+    <Compile Include="LeagueCredentialLogo.cs" />
+    <Compile Include="LeagueManager.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="MatchesMap.cs" />
     <Compile Include="MatchTeam.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="TeamPlayer.cs" />
     <Compile Include="Tournament.cs" />
     <Compile Include="TournamentGroup.cs" />
+    <Compile Include="TournamentManager.cs" />
     <Compile Include="TournamentTeam.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UsersMap.cs" />
