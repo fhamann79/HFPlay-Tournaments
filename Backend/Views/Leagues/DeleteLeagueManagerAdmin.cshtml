@@ -1,0 +1,65 @@
+﻿
+@model Domain.LeagueManager
+
+@{
+    /**/
+
+    ViewBag.Title = "Borrar";
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@Html.Raw(ViewBag.ErrorMessage)</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@Html.Raw(TempData["SuccessMessage"].ToString())</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
+<h2>Borrar</h2>
+
+<h3>¿Está seguro de borrar esto?</h3>
+<div>
+    <h4>Dirigente</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.User.FullDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.FullDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.League.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.League.Name)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Borrar" class="btn btn-danger" /> |
+            @Html.ActionLink("Regresar", "Details", new { id = Model.LeagueId }, new { @class = "btn btn-success" })
+        </div>
+    }
+</div>
+

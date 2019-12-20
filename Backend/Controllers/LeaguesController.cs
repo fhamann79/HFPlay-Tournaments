@@ -192,6 +192,54 @@ namespace Backend.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> DeleteLeagueManagerAdmin(int? id, bool? saveChangesError = false)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewBag.ErrorMessage = MessageHelper.DeleteError();
+            }
+
+            var leagueManagers = await db.LeagueManagers.FindAsync(id);
+
+            return View(leagueManagers);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteLeagueManagerAdmin(int id)
+        {
+            var leagueManagers = await db.LeagueManagers.FindAsync(id);
+            try
+            {
+                db.LeagueManagers.Remove(leagueManagers);
+                await db.SaveChangesAsync();
+
+                var managers = db.LeagueManagers.Where(tm => tm.UserId == leagueManagers.UserId).ToList();
+
+                if (managers.Count == 0)
+                {
+                    var user = db.Users.Where(u => u.UserId == leagueManagers.UserId).FirstOrDefault();
+                    var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+                    userManager.RemoveFromRole(user.UserASPId, "LeagueManager");
+                }
+
+                TempData["SuccessMessage"] = MessageHelper.DeleteOk();
+            }
+            catch (DataException/* dex */)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                return RedirectToAction("DeleteLeagueManagerAdmin", new { id = id, saveChangesError = true });
+            }
+            return RedirectToAction("Details", new { id = leagueManagers.LeagueId });
+        }
+
+
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> EditPlayerAdmin(int? id)
         {
             if (id == null)
@@ -314,6 +362,9 @@ namespace Backend.Controllers
 
         }
 
+
+
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -332,6 +383,51 @@ namespace Backend.Controllers
             }
             ViewBag.UserId = new SelectList(db.Users.OrderBy(u => u.LastName).ToList(), "UserId", "FullDescription", teamManager.UserId);
             return View(teamManager);
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> AddLeagueManager(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var league = await db.Leagues.FindAsync(id);
+
+            if (league == null)
+            {
+                return HttpNotFound();
+            }
+
+            var leagueManager = new LeagueManager { LeagueId = league.LeagueId };
+
+            ViewBag.UserId = new SelectList(db.Users.OrderBy(u => u.LastName).ToList(), "UserId", "FullDescription");
+
+            return View(leagueManager);
+
+
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddLeagueManager(LeagueManager leagueManager)
+        {
+            if (ModelState.IsValid)
+            {
+                leagueManager.IsAccepted = true;
+                leagueManager.IsActive = true;
+                db.LeagueManagers.Add(leagueManager);
+                await db.SaveChangesAsync();
+                var user = db.Users.Where(u => u.UserId == leagueManager.UserId).FirstOrDefault();
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+                userManager.AddToRole(user.UserASPId, "LeagueManager");
+                return RedirectToAction("Details", new { id = leagueManager.LeagueId });
+            }
+            ViewBag.UserId = new SelectList(db.Users.OrderBy(u => u.LastName).ToList(), "UserId", "FullDescription", leagueManager.UserId);
+            return View(leagueManager);
         }
 
         [Authorize(Roles = "Admin")]
@@ -683,6 +779,8 @@ namespace Backend.Controllers
 
 
         #endregion
+
+        
 
 
         #region TeamManager

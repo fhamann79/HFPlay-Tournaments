@@ -564,6 +564,8 @@
     <Content Include="Views\Leagues\CardsTeamCPlayerAdmin.cshtml" />
     <Content Include="Views\Leagues\CardsTeamJ.cshtml" />
     <Content Include="Views\Leagues\CardsTeamJPlayerAdmin.cshtml" />
+    <Content Include="Views\Leagues\AddLeagueManager.cshtml" />
+    <Content Include="Views\Leagues\DeleteLeagueManagerAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".well-known\" />
