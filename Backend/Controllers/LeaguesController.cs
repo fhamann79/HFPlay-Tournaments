@@ -970,6 +970,46 @@ namespace Backend.Controllers
 
         }
 
+        [Authorize(Roles = "LeagueManager")]
+        public async Task<ActionResult> DetailsTeamLeagueManager(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                var userASPId = User.Identity.GetUserId();
+
+                var qry = (from te in db.Teams
+                           where te.TeamId == id
+                           join l in db.Leagues on te.LeagueId equals l.LeagueId
+                           join lm in db.LeagueManagers on l.LeagueId equals lm.LeagueId
+                           join um in db.Users on lm.UserId equals um.UserId
+                           where um.UserASPId == userASPId
+                           select new { te }).FirstOrDefault();
+
+                var team = await db.Teams.FindAsync(qry.te.TeamId);
+
+                if (team == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(team);
+            }
+            catch (NullReferenceException)
+            {
+                TempData["FailMessage"] = MessageHelper.TeamFail();
+                //TODO: Make Send Email to User
+                return RedirectToAction("Index", "Home", new { });
+            }
+
+
+        }
+
+
         [Authorize(Roles = "TeamManager")]
         public async Task<ActionResult> DetailsLeaguesTeamManager(int? id)
         {
@@ -1011,6 +1051,48 @@ namespace Backend.Controllers
 
         }
 
+        [Authorize(Roles = "LeagueManager")]
+        public async Task<ActionResult> DetailsLeaguesLeagueManager(int? id)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            League league = await db.Leagues.FindAsync(id);
+
+            if (league == null)
+            {
+                return HttpNotFound();
+            }
+
+            League leagueView = new League
+            {
+                LeagueId = league.LeagueId,
+                Logo = league.Logo,
+                Name = league.Name,
+                Teams = new List<Team>(),
+            };
+
+            var userASPId = User.Identity.GetUserId();
+
+            var qry = (from t in db.Teams
+                       where t.LeagueId == id
+                       join lm in db.LeagueManagers on t.LeagueId equals lm.LeagueId
+                       join u in db.Users on lm.UserId equals u.UserId
+                       where u.UserASPId == userASPId
+                       select new { t }).ToList();
+
+            foreach (var item in qry)
+            {
+                leagueView.Teams.Add(item.t);
+            }
+
+            return View(leagueView);
+
+        }
+
+
         [Authorize(Roles = "TeamManager")]
         public ActionResult IndexLeaguesTeamManager()
         {
@@ -1019,6 +1101,34 @@ namespace Backend.Controllers
                        join t in db.Teams on l.LeagueId equals t.LeagueId
                        join tm in db.TeamManagers on t.TeamId equals tm.TeamId
                        join u in db.Users on tm.UserId equals u.UserId
+                       where u.UserASPId == userASPId
+                       select new { l }).ToList();
+
+            var leagues = new List<League>();
+
+            foreach (var item in qry)
+            {
+                var league = leagues.Find(lg => lg.LeagueId == item.l.LeagueId);
+
+                if (league == null)
+                {
+                    leagues.Add(item.l);
+                }
+              
+            }
+
+            return View(leagues);
+
+
+        }
+
+        [Authorize(Roles = "LeagueManager")]
+        public ActionResult IndexLeaguesLeagueManager()
+        {
+            var userASPId = User.Identity.GetUserId();
+            var qry = (from l in db.Leagues
+                       join lm in db.LeagueManagers on l.LeagueId equals lm.LeagueId
+                       join u in db.Users on lm.UserId equals u.UserId
                        where u.UserASPId == userASPId
                        select new { l }).ToList();
 

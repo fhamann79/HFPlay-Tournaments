@@ -566,6 +566,11 @@
     <Content Include="Views\Leagues\CardsTeamJPlayerAdmin.cshtml" />
     <Content Include="Views\Leagues\AddLeagueManager.cshtml" />
     <Content Include="Views\Leagues\DeleteLeagueManagerAdmin.cshtml" />
+    <Content Include="Views\Shared\_LeagueManagerMenuPartial.cshtml" />
+    <Content Include="Views\Shared\_TournamentManagerMenuPartial.cshtml" />
+    <Content Include="Views\Leagues\IndexLeaguesLeagueManager.cshtml" />
+    <Content Include="Views\Leagues\DetailsLeaguesLeagueManager.cshtml" />
+    <Content Include="Views\Leagues\DetailsTeamLeagueManager.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".well-known\" />

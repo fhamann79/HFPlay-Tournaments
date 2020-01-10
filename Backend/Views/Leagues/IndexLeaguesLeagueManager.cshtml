@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Domain.League>
 
 @{
-    ViewBag.Title = "IndexLeaguesTeamManager";
+    ViewBag.Title = "IndexLeaguesLeagueManager";
 }
 
-<h2>Dirigente de Equipo - Mis Ligas</h2>
+<h2>Dirigente de Liga - Mis Ligas</h2>
 
 <table class="table table-bordered table-hover">
     <thead class="thead-light">
@@ -40,7 +40,7 @@
                 @Html.DisplayFor(modelItem => item.Teams.Count)
             </td>
             <td>
-                @Html.ActionLink("Detalles", "DetailsLeaguesTeamManager", new { id = item.LeagueId }, new { @class = "btn btn-info" }) |
+                @Html.ActionLink("Detalles", "DetailsLeaguesLeagueManager", new { id = item.LeagueId }, new { @class = "btn btn-info" }) |
 
             </td>
         </tr>

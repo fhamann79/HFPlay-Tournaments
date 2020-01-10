@@ -41,9 +41,16 @@
 
                     @Html.Partial("_AdminMenuPartial")
                 }
+                @if (User.IsInRole("TournamentManager"))
+                {
+                    @Html.Partial("_TournamentManagerMenuPartial")
+                }
+                @if (User.IsInRole("LeagueManager"))
+                {
+                    @Html.Partial("_LeagueManagerMenuPartial")
+                }
                 @if (User.IsInRole("TeamManager"))
                 {
-
                     @Html.Partial("_TeamManagerMenuPartial")
                 }
                 @if (User.IsInRole("User"))

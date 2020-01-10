@@ -141,13 +141,13 @@
 
                                 @if (!string.IsNullOrEmpty(item.League.Logo))
                                 {
-                                    <a href="@Url.Content(string.Format("~/Leagues/DetailsLeagueLeagueManager/{0}",item.LeagueId))">
+                                    <a href="@Url.Content(string.Format("~/Leagues/DetailsLeaguesLeagueManager/{0}",item.LeagueId))">
                                         <img src="@Url.Content(item.League.Logo)" alt="Image" style="width:64px;height:64px;max-width: 100%; height: auto;" />
                                     </a>
 
                                 }
                                 <br />
-                                <a href="@Url.Content(string.Format("~/Leagues/DetailsLeagueLeagueManager/{0}",item.LeagueId))">
+                                <a href="@Url.Content(string.Format("~/Leagues/DetailsLeaguesLeagueManager/{0}",item.LeagueId))">
                                     @Html.DisplayFor(modelItem => item.League.Name)
                                 </a>
 
