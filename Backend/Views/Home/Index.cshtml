@@ -112,6 +112,99 @@
                     </button>
                 </div>
             }
+
+            @if (Model.User.LeagueManagers.Count == 0)
+            {
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <strong>No diriges liga alguna.</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            else
+            {
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>
+
+                                <h4>Eres dirigente en:</h4>
+
+                            </th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model.User.LeagueManagers)
+                    {
+                        <tr>
+                            <td>
+
+                                @if (!string.IsNullOrEmpty(item.League.Logo))
+                                {
+                                    <a href="@Url.Content(string.Format("~/Leagues/DetailsLeagueLeagueManager/{0}",item.LeagueId))">
+                                        <img src="@Url.Content(item.League.Logo)" alt="Image" style="width:64px;height:64px;max-width: 100%; height: auto;" />
+                                    </a>
+
+                                }
+                                <br />
+                                <a href="@Url.Content(string.Format("~/Leagues/DetailsLeagueLeagueManager/{0}",item.LeagueId))">
+                                    @Html.DisplayFor(modelItem => item.League.Name)
+                                </a>
+
+                                <p><span>Descripción: </span>@Html.DisplayFor(modelItem => item.Description)</p>
+
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+
+            @if (Model.User.TeamManagers.Count == 0)
+            {
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <strong>No diriges equipo alguno.</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            else
+            {
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>
+
+                                <h4>Eres dirigente en:</h4>
+
+                            </th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model.User.TeamManagers)
+                    {
+                        <tr>
+                            <td>
+
+                                @if (!string.IsNullOrEmpty(item.Team.Logo))
+                                {
+                                    <a href="@Url.Content(string.Format("~/Leagues/DetailsTeamTeamManager/{0}",item.TeamId))">
+                                        <img src="@Url.Content(item.Team.Logo)" alt="Image" style="width:64px;height:64px;max-width: 100%; height: auto;" />
+                                    </a>
+
+                                }
+                                <br />
+                                <a href="@Url.Content(string.Format("~/Leagues/DetailsTeamTeamManager/{0}",item.TeamId))">
+                                    @Html.DisplayFor(modelItem => item.Team.Name)
+                                </a>
+
+                                <p><span>Descripción: </span>@Html.DisplayFor(modelItem => item.Description)</p>
+
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+
             @if (Model.User.TeamPlayers.Count == 0)
             {
                 <div class="alert alert-info alert-dismissible fade show" role="alert">
@@ -268,8 +361,8 @@
                                             </table>
 
                                         </div>
-                                        
-                                        
+
+
 
                                     }
                                 }
@@ -292,16 +385,16 @@
                                         .OrderBy(l => l.DateTime).ToList())
                                     {
                                         <table>
-                                            
-                                                <tr>
-                                                    <td colspan="3">
-                                                        <b>@itemMatchLocal.DateTimeEc</b><br />
-                                                        <span>@itemMatchLocal.Stadium.Name </span> <br />
-                                                        <span>@itemMatchLocal.Date.Tournament.Name </span><br />
-                                                        <span>Grupo: @itemMatchLocal.TournamentGroup.Name   Fecha: @itemMatchLocal.Date.Name</span><br />
-                                                    </td>
-                                                </tr>
-                                            
+
+                                            <tr>
+                                                <td colspan="3">
+                                                    <b>@itemMatchLocal.DateTimeEc</b><br />
+                                                    <span>@itemMatchLocal.Stadium.Name </span> <br />
+                                                    <span>@itemMatchLocal.Date.Tournament.Name </span><br />
+                                                    <span>Grupo: @itemMatchLocal.TournamentGroup.Name   Fecha: @itemMatchLocal.Date.Name</span><br />
+                                                </td>
+                                            </tr>
+
                                             <tr>
                                                 <td width="100px" align="center">
                                                     @if (!string.IsNullOrEmpty(itemMatchLocal.Local.Logo))
@@ -322,13 +415,9 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td align="center">
-                                                    
-                                                </td>
+                                                <td align="center"></td>
                                                 <td width="50px" align="center"></td>
-                                                <td align="center">
-                                                    
-                                                </td>
+                                                <td align="center"></td>
                                             </tr>
                                         </table>
                                         <br />
@@ -397,53 +486,7 @@
                 </table>
             }
 
-            @if (Model.User.TeamManagers.Count == 0)
-            {
-                <div class="alert alert-info alert-dismissible fade show" role="alert">
-                    <strong>No diriges equipo alguno.</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            }
-            else
-            {
-                <table class="table table-bordered table-hover">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>
-                                
-                                <h4>Eres dirigente en:</h4>
 
-                            </th>
-                        </tr>
-                    </thead>
-                    @foreach (var item in Model.User.TeamManagers)
-                    {
-                        <tr>
-                            <td>
-
-                                @if (!string.IsNullOrEmpty(item.Team.Logo))
-                                {
-                                    <a href="@Url.Content(string.Format("~/Leagues/DetailsTeamTeamManager/{0}",item.TeamId))">
-                                        <img src="@Url.Content(item.Team.Logo)" alt="Image" style="width:64px;height:64px;max-width: 100%; height: auto;" />
-                                    </a>
-
-                                }
-                                <br />
-                                <a href="@Url.Content(string.Format("~/Leagues/DetailsTeamTeamManager/{0}",item.TeamId))">
-                                    @Html.DisplayFor(modelItem => item.Team.Name)
-                                </a>
-
-                                <p><span>Descripción: </span>@Html.DisplayFor(modelItem => item.Description)</p>
-
-                            </td>
-                        </tr>
-                    }
-                </table>
-            }
-
-           
 
             @if (User.IsInRole("Admin"))
             {
@@ -522,30 +565,30 @@
                     @foreach (var item in Model.Tournaments.OrderBy(t => t.Order))
                     {
 
-                    <div class="col-sm-6 col-md-6 col-lg-6 mt-4">
-                        <div class="card">
+                        <div class="col-sm-6 col-md-6 col-lg-6 mt-4">
+                            <div class="card">
 
-                            <div class="card-block">
-                                <a href="@Url.Content(string.Format("~/Home/DetailsTournament/{0}",item.TournamentId))">
-                                    <h4 class="card-title mt-3">@Html.DisplayFor(modelItem => item.Name)</h4>
-                                </a>
-                            </div>
+                                <div class="card-block">
+                                    <a href="@Url.Content(string.Format("~/Home/DetailsTournament/{0}",item.TournamentId))">
+                                        <h4 class="card-title mt-3">@Html.DisplayFor(modelItem => item.Name)</h4>
+                                    </a>
+                                </div>
 
-                            @if (!string.IsNullOrEmpty(item.Logo))
-                            {
-                                <a href="@Url.Content(string.Format("~/Home/DetailsTournament/{0}",item.TournamentId))">
-                                    <img src="@Url.Content(item.Logo)" alt="Image" class="card-img-top" />
-                                </a>
+                                @if (!string.IsNullOrEmpty(item.Logo))
+                                {
+                                    <a href="@Url.Content(string.Format("~/Home/DetailsTournament/{0}",item.TournamentId))">
+                                        <img src="@Url.Content(item.Logo)" alt="Image" class="card-img-top" />
+                                    </a>
 
-                            }
+                                }
 
-                            <div class="card-footer mx-auto">
+                                <div class="card-footer mx-auto">
 
-                                @Html.ActionLink("Detalles de Torneo", "DetailsTournament", new { id = item.TournamentId }, new { @class = "btn btn-info btn-lg" })
+                                    @Html.ActionLink("Detalles de Torneo", "DetailsTournament", new { id = item.TournamentId }, new { @class = "btn btn-info btn-lg" })
 
+                                </div>
                             </div>
                         </div>
-                    </div>
                     }
                 </div>
             }
