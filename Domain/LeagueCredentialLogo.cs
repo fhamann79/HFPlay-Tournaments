@@ -46,6 +46,9 @@ namespace Domain
         [Display(Name = "Texto Reverso Alterno")]
         public string AlternateReverseText { get; set; }
 
+        [Display(Name = "¿Predeterminado?")]
+        public bool IsDefault { get; set; }
+
         [Display(Name = "Liga")]
         public int LeagueId { get; set; }
 

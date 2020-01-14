@@ -227,6 +227,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CheckManagerHelper.cs" />
     <Compile Include="Helpers\CombosHelper.cs" />
     <Compile Include="Helpers\FileHelpers.cs" />
     <Compile Include="Helpers\MailHelper.cs" />
@@ -255,6 +256,7 @@
     <Compile Include="Models\HFPlayBackInterceptorTransientErrors.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IndexHomeViewModel.cs" />
+    <Compile Include="Models\LeagueCredentialLogoView.cs" />
     <Compile Include="Models\LeagueView.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MatchView.cs" />

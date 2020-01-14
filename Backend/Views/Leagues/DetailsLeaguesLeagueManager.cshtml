@@ -33,6 +33,7 @@
 </div>
 <p>
     @Html.ActionLink("Regresar", "IndexLeaguesLeagueManager", new { }, new { @class = "btn btn-success" })
+    @Html.ActionLink("Configurar Carnets", "SetupCardLeagueLeagueManager", new { id = Model.LeagueId }, new { @class = "btn btn-success" })
 </p>
 <h4>Equipos</h4>
 @if (Model.Teams.Count == 0)
