@@ -251,6 +251,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddRoleViewModel.cs" />
+    <Compile Include="Models\CredentialView.cs" />
     <Compile Include="Models\DataContextLocal.cs" />
     <Compile Include="Models\HFPlayBackInitializer.cs" />
     <Compile Include="Models\HFPlayBackInterceptorLogging.cs" />
@@ -297,6 +298,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\cards.css" />
+    <Content Include="Content\Credentials\Credentials.txt" />
     <Content Include="Content\logohfplay.png" />
     <Content Include="Content\Logos\carnetCopa2018A.jpg" />
     <Content Include="Content\Logos\carnetCopa2018B.jpg" />
@@ -580,6 +582,8 @@
     <Content Include="Views\LeagueCredentialLogoes\Edit.cshtml" />
     <Content Include="Views\LeagueCredentialLogoes\Index.cshtml" />
     <Content Include="Views\Leagues\SetupCardLeagueLeagueManager.cshtml" />
+    <Content Include="Views\Leagues\CreateLeagueCredentialLogo.cshtml" />
+    <Content Include="Views\Leagues\CardsTeamLeagueManager.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".well-known\" />

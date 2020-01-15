@@ -29,13 +29,30 @@ namespace Backend.Controllers
 
         private int heigthPhotoLeague = 360;
 
+        private int widthLeagueMainLogo = 295;
+
+        private int heigthLeagueMainLogo = 86;
+
+        private int widthFrontSecondaryLogo = 295;
+
+        private int heigthFrontSecondaryLogo = 86;
+
+        private int widthReverseMainLogo = 295;
+
+        private int heigthReverseMainLogo = 86;
+
+        private int widthReverseSecondaryLogo = 295;
+
+        private int heigthReverseSecondaryLogo = 86;
+
         // var userASPId = User.Identity.GetUserId();  OBTIENE ID DE USUARIO ACTUAL 
+       
         #endregion
 
 
         #region Admin
 
-        [Authorize(Roles = "Admin")]
+                [Authorize(Roles = "Admin")]
         public async Task<ActionResult> CardsTeamAPlayerAdmin(int? id)
         {
             if (id == null)
@@ -828,10 +845,86 @@ namespace Backend.Controllers
                 return HttpNotFound();
             }
 
-            var leagueView = db.Leagues.Where(l => l.LeagueId == id);
+            var leagueView = db.Leagues.Where(l => l.LeagueId == id).FirstOrDefault();
 
             return View(leagueView);
         }
+
+        [Authorize(Roles = "LeagueManager")]
+        public async Task<ActionResult> CreateLeagueCredentialLogo(int? id)
+        {
+            //TODO: Control access LeagueManager
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var league = await db.Leagues.FindAsync(id);
+
+            if (league == null)
+            {
+                return HttpNotFound();
+            }
+
+            var view = new LeagueCredentialLogoView { LeagueId = league.LeagueId, IsDefault = true };
+
+            return View(view);
+        }
+
+        [Authorize(Roles = "LeagueManager")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateLeagueCredentialLogo(LeagueCredentialLogoView view)
+        {
+            if (ModelState.IsValid)
+            {
+                var picLeagueMainLogoView = string.Empty;
+                var picFrontSecondaryLogoView = string.Empty;
+                var picReverseMainLogoView = string.Empty;
+                var picReverseSecondaryLogoView = string.Empty;
+                var folder = "~/Content/Credentials";
+
+                if (view.LeagueMainLogoView != null)
+                {
+                    picLeagueMainLogoView = FileHelpers.UploadPhoto(view.LeagueMainLogoView, folder, widthLeagueMainLogo, heigthLeagueMainLogo);
+                    picLeagueMainLogoView = string.Format("{0}/{1}", folder, picLeagueMainLogoView);
+                }
+
+                if (view.FrontSecondaryLogoView != null)
+                {
+                    picFrontSecondaryLogoView = FileHelpers.UploadPhoto(view.FrontSecondaryLogoView, folder, widthFrontSecondaryLogo, heigthFrontSecondaryLogo);
+                    picFrontSecondaryLogoView = string.Format("{0}/{1}", folder, picFrontSecondaryLogoView);
+                }
+
+                if (view.ReverseMainLogoView != null)
+                {
+                    picReverseMainLogoView = FileHelpers.UploadPhoto(view.ReverseMainLogoView, folder, widthReverseMainLogo, heigthReverseMainLogo);
+                    picReverseMainLogoView = string.Format("{0}/{1}", folder, picReverseMainLogoView);
+                }
+
+                if (view.ReverseSecondaryLogoView != null)
+                {
+                    picReverseSecondaryLogoView = FileHelpers.UploadPhoto(view.ReverseSecondaryLogoView, folder, widthReverseSecondaryLogo, heigthReverseSecondaryLogo);
+                    picReverseSecondaryLogoView = string.Format("{0}/{1}", folder, picReverseSecondaryLogoView);
+                }
+
+                var leagueCredencialLogo = ToLeagueCredencialLogo(view);
+                leagueCredencialLogo.LeagueMainLogo = picLeagueMainLogoView;
+                leagueCredencialLogo.FrontSecondaryLogo = picFrontSecondaryLogoView;
+                leagueCredencialLogo.ReverseMainLogo = picReverseMainLogoView;
+                leagueCredencialLogo.ReverseSecondaryLogo = picReverseSecondaryLogoView;
+
+                db.LeagueCredentialLogoes.Add(leagueCredencialLogo);
+                await db.SaveChangesAsync();
+                return RedirectToAction("SetupCardLeagueLeagueManager", new { id = leagueCredencialLogo.LeagueId });
+            }
+
+
+            return View(view);
+        }
+
+
 
         [Authorize(Roles = "LeagueManager")]
         public ActionResult IndexLeaguesLeagueManager()
@@ -877,6 +970,34 @@ namespace Backend.Controllers
             return View(leagueView);
 
          }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> CardsTeamLeagueManager(int? id)
+        {
+            //TODO: LeagueManager ACCESS
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var team = await db.Teams.FindAsync(id);
+            if (team == null)
+            {
+                return HttpNotFound();
+            }
+
+            var league = await db.Leagues.FindAsync(team.LeagueId);
+
+            var leagueCredentialLogo = db.LeagueCredentialLogoes
+                .Where(c => c.LeagueId == league.LeagueId || c.IsDefault == true)
+                .FirstOrDefault();
+
+            var credentialView = new CredentialView();
+            credentialView.Team = team;
+            credentialView.LeagueCredentialLogo = leagueCredentialLogo;
+
+            return View(credentialView);
+        }
 
 
         #endregion
@@ -1183,12 +1304,32 @@ namespace Backend.Controllers
                 return RedirectToAction("Index", "Home", new { });
             }
 
-        }     
+        }
         #endregion
-        
+
 
         #region Methods
-            private Team ToTeam(TeamView view)
+
+        private LeagueCredentialLogo ToLeagueCredencialLogo(LeagueCredentialLogoView view)
+        {
+            return new LeagueCredentialLogo
+            {
+                AlternateReverseText = view.AlternateReverseText,
+                Description = view.Description,
+                FrontSecondaryLogo = view.FrontSecondaryLogo,
+                IsDefault = view.IsDefault,
+                League = view.League,
+                LeagueCredentialLogoId = view.LeagueCredentialLogoId,
+                LeagueId = view.LeagueId,
+                LeagueMainLogo = view.LeagueMainLogo,
+                MainReverseText = view.MainReverseText,
+                ReverseMainLogo = view.ReverseMainLogo,
+                ReverseSecondaryLogo = view.ReverseSecondaryLogo,
+                SecondaryReverseText = view.SecondaryReverseText,
+
+            };
+        }
+        private Team ToTeam(TeamView view)
         {
             return new Team
             {
