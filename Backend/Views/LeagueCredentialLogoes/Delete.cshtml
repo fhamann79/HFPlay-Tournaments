@@ -1,0 +1,112 @@
+﻿@model Domain.LeagueCredentialLogo
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
+<body>
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>LeagueCredentialLogo</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.League.Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.League.Name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.LeagueMainLogo)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.LeagueMainLogo)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.FrontSecondaryLogo)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.FrontSecondaryLogo)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ReverseMainLogo)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ReverseMainLogo)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ReverseSecondaryLogo)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ReverseSecondaryLogo)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.MainReverseText)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.MainReverseText)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.SecondaryReverseText)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.SecondaryReverseText)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.AlternateReverseText)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.AlternateReverseText)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IsDefault)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IsDefault)
+            </dd>
+    
+        </dl>
+    
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+    
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+﻿@model IEnumerable<Domain.League>
+
+@{
+    ViewBag.Title = "Configurar Credenciales";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@Html.Raw(TempData["SuccessMessage"].ToString())</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@Html.Raw(TempData["FailMessage"].ToString())</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<h2>Configurar</h2>
+
+<p>
+    @Html.ActionLink("Crear", "Create", new { }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Regresar a Detalles de Liga", "DetailsLeaguesLeagueManager", new { id = Model.FirstOrDefault().LeagueId }, new { @class = "btn btn-success" })
+</p>
+
+<h3>Credenciales de Liga</h3>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LeagueCredentialLogos.FirstOrDefault().League.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeagueCredentialLogos.FirstOrDefault().Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeagueCredentialLogos.FirstOrDefault().LeagueMainLogo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeagueCredentialLogos.FirstOrDefault().FrontSecondaryLogo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeagueCredentialLogos.FirstOrDefault().ReverseMainLogo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeagueCredentialLogos.FirstOrDefault().ReverseSecondaryLogo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeagueCredentialLogos.FirstOrDefault().MainReverseText)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeagueCredentialLogos.FirstOrDefault().SecondaryReverseText)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeagueCredentialLogos.FirstOrDefault().AlternateReverseText)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeagueCredentialLogos.FirstOrDefault().IsDefault)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.FirstOrDefault().LeagueCredentialLogos)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.League.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @if (!string.IsNullOrEmpty(item.LeagueMainLogo))
+            {
+                <img src="@Url.Content(item.LeagueMainLogo)" alt="Image" style="width:150px;height:150px;max-width: 100%; height: auto;" />
+            }
+
+        </td>
+        <td>
+            @if (!string.IsNullOrEmpty(item.FrontSecondaryLogo))
+            {
+                <img src="@Url.Content(item.FrontSecondaryLogo)" alt="Image" style="width:150px;height:150px;max-width: 100%; height: auto;" />
+            }
+
+        </td>
+        <td>
+            @if (!string.IsNullOrEmpty(item.ReverseMainLogo))
+            {
+                <img src="@Url.Content(item.ReverseMainLogo)" alt="Image" style="width:150px;height:150px;max-width: 100%; height: auto;" />
+            }
+
+        </td>
+        <td>
+            @if (!string.IsNullOrEmpty(item.ReverseSecondaryLogo))
+            {
+                <img src="@Url.Content(item.ReverseSecondaryLogo)" alt="Image" style="width:150px;height:150px;max-width: 100%; height: auto;" />
+            }
+
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MainReverseText)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecondaryReverseText)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AlternateReverseText)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsDefault)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "EditLeagueCredencialLogo", new { id = item.LeagueCredentialLogoId }) |
+            @Html.ActionLink("Predeterminado", "DefaultLeagueCredencialLogo", new { id = item.LeagueCredentialLogoId }) |
+            @Html.ActionLink("Borrar", "DeleteLeagueCredencialLogo", new { id = item.LeagueCredentialLogoId })
+        </td>
+    </tr>
+    }
+
+</table>
+

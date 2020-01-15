@@ -780,6 +780,7 @@ namespace Backend.Controllers
 
         #endregion
 
+
         #region LeagueManager
 
         [Authorize(Roles = "LeagueManager")]
@@ -810,6 +811,27 @@ namespace Backend.Controllers
 
         }
 
+        [Authorize(Roles = "LeagueManager")]
+        public ActionResult SetupCardLeagueLeagueManager(int? id)
+        {
+            var userASPId = User.Identity.GetUserId();
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var isLeagueManager = CheckManagerHelper.CheckLeagueManager(userASPId, id.Value);
+
+            if (isLeagueManager.Response == false)
+            {
+                return HttpNotFound();
+            }
+
+            var leagueView = db.Leagues.Where(l => l.LeagueId == id);
+
+            return View(leagueView);
+        }
 
         [Authorize(Roles = "LeagueManager")]
         public ActionResult IndexLeaguesLeagueManager()
@@ -858,6 +880,7 @@ namespace Backend.Controllers
 
 
         #endregion
+
 
         #region TeamManager
 

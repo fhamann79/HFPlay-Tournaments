@@ -207,6 +207,7 @@
     <Compile Include="Controllers\GenericController.cs" />
     <Compile Include="Controllers\GoalTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LeagueCredentialLogoesController.cs" />
     <Compile Include="Controllers\LeaguesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MatchesController.cs" />
@@ -573,6 +574,12 @@
     <Content Include="Views\Leagues\IndexLeaguesLeagueManager.cshtml" />
     <Content Include="Views\Leagues\DetailsLeaguesLeagueManager.cshtml" />
     <Content Include="Views\Leagues\DetailsTeamLeagueManager.cshtml" />
+    <Content Include="Views\LeagueCredentialLogoes\Create.cshtml" />
+    <Content Include="Views\LeagueCredentialLogoes\Delete.cshtml" />
+    <Content Include="Views\LeagueCredentialLogoes\Details.cshtml" />
+    <Content Include="Views\LeagueCredentialLogoes\Edit.cshtml" />
+    <Content Include="Views\LeagueCredentialLogoes\Index.cshtml" />
+    <Content Include="Views\Leagues\SetupCardLeagueLeagueManager.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".well-known\" />

@@ -51,5 +51,7 @@ namespace Backend.Models
         public System.Data.Entity.DbSet<Domain.Sanction> Sanctions { get; set; }
 
         public System.Data.Entity.DbSet<Domain.LeagueManager> LeagueManagers { get; set; }
+
+        public System.Data.Entity.DbSet<Domain.LeagueCredentialLogo> LeagueCredentialLogoes { get; set; }
     }
 }
