@@ -8,7 +8,7 @@
 }
 
 .twPc-bg {
-    background-image: url("http://hfplay.azurewebsites.net/Content/Logos/carnetCopa2018A.jpg");
+    /*background-image: url("http://hfplay.azurewebsites.net/Content/Logos/carnetCopa2018A.jpg");*/
     background-position: 0 50%;
     background-size: 100% auto;
     border-bottom: 1px solid #e1e8ed;
@@ -75,7 +75,7 @@
     color: #fff;
     height: 112px;
     width: 84px;
-    //width: 96px;
+    /*width: 96px;*/
 }
 
 .twPc-teamLogo {

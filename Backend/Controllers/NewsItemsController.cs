@@ -146,7 +146,10 @@ namespace Backend.Controllers
                         newsItem.PublicationDate = DateTime.UtcNow;
                         newsItem.ModificationDate = DateTime.UtcNow;
                         newsItem.IsApproved = false;
-                        newsItem.FacebookVideo = "https://www.facebook.com/plugins/video.php?href=" + newsItem.FacebookVideo + "%2F&show_text=0&width=560";
+                        if (!string.IsNullOrEmpty(newsItem.FacebookVideo))
+                        {
+                            newsItem.FacebookVideo = "https://www.facebook.com/plugins/video.php?href=" + newsItem.FacebookVideo + "%2F&show_text=0&width=560"; 
+                        }
                         db.NewsItems.Add(newsItem);
                         await db.SaveChangesAsync();
                         TempData["SuccessMessage"] = MessageHelper.NewsCreateOk();

@@ -584,6 +584,7 @@
     <Content Include="Views\Leagues\SetupCardLeagueLeagueManager.cshtml" />
     <Content Include="Views\Leagues\CreateLeagueCredentialLogo.cshtml" />
     <Content Include="Views\Leagues\CardsTeamLeagueManager.cshtml" />
+    <Content Include="Views\Leagues\DeleteLeagueCredentialLogo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".well-known\" />

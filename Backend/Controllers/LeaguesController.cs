@@ -24,35 +24,27 @@ namespace Backend.Controllers
         private DataContextLocal db = new DataContextLocal();
 
         private static ApplicationDbContext userContext = new ApplicationDbContext();
-
-        private int widthPhotoLeague = 360;
-
-        private int heigthPhotoLeague = 360;
-
+        private int widthLogoLeague = 128;
+        private int heigthLogoLeague = 128;
         private int widthLeagueMainLogo = 295;
-
         private int heigthLeagueMainLogo = 86;
-
         private int widthFrontSecondaryLogo = 295;
-
         private int heigthFrontSecondaryLogo = 86;
-
         private int widthReverseMainLogo = 295;
-
         private int heigthReverseMainLogo = 86;
-
         private int widthReverseSecondaryLogo = 295;
-
         private int heigthReverseSecondaryLogo = 86;
+        private int widthLogoTeam = 128;
+        private int heigthLogoTeam = 128;
 
         // var userASPId = User.Identity.GetUserId();  OBTIENE ID DE USUARIO ACTUAL 
-       
+
         #endregion
 
 
         #region Admin
 
-                [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> CardsTeamAPlayerAdmin(int? id)
         {
             if (id == null)
@@ -606,7 +598,7 @@ namespace Backend.Controllers
 
                 if (view.LogoFile != null)
                 {
-                    pic = FileHelpers.UploadPhoto(view.LogoFile, folder, widthPhotoLeague, heigthPhotoLeague);
+                    pic = FileHelpers.UploadPhoto(view.LogoFile, folder, widthLogoTeam, heigthLogoTeam);
                     pic = string.Format("{0}/{1}", folder, pic);
                 }
 
@@ -653,7 +645,7 @@ namespace Backend.Controllers
 
                 if (view.LogoFile != null)
                 {
-                    pic = FileHelpers.UploadPhoto(view.LogoFile, folder, widthPhotoLeague, heigthPhotoLeague);
+                    pic = FileHelpers.UploadPhoto(view.LogoFile, folder, widthLogoTeam, heigthLogoTeam);
                     pic = string.Format("{0}/{1}", folder, pic);
                 }
 
@@ -708,7 +700,7 @@ namespace Backend.Controllers
 
                 if (view.LogoFile != null)
                 {
-                    pic = FileHelpers.UploadPhoto(view.LogoFile, folder, widthPhotoLeague, heigthPhotoLeague);
+                    pic = FileHelpers.UploadPhoto(view.LogoFile, folder, widthLogoLeague, heigthLogoLeague);
                     pic = string.Format("{0}/{1}", folder, pic);
                 }
 
@@ -754,7 +746,7 @@ namespace Backend.Controllers
 
                 if (view.LogoFile != null)
                 {
-                    pic = FileHelpers.UploadPhoto(view.LogoFile, folder, widthPhotoLeague, heigthPhotoLeague);
+                    pic = FileHelpers.UploadPhoto(view.LogoFile, folder, widthLogoLeague, heigthLogoLeague);
                     pic = string.Format("{0}/{1}", folder, pic);
                 }
 
@@ -971,7 +963,7 @@ namespace Backend.Controllers
 
          }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "LeagueManager")]
         public async Task<ActionResult> CardsTeamLeagueManager(int? id)
         {
             //TODO: LeagueManager ACCESS
@@ -997,6 +989,34 @@ namespace Backend.Controllers
             credentialView.LeagueCredentialLogo = leagueCredentialLogo;
 
             return View(credentialView);
+        }
+
+
+        [Authorize(Roles = "LeagueManager")]
+        public async Task<ActionResult> DeleteLeagueCredentialLogo(int? id)
+        {
+            //TODO: LeagueManager ACCESS
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var leagueCredentialLogo = await db.LeagueCredentialLogoes.FindAsync(id);
+            if (leagueCredentialLogo == null)
+            {
+                return HttpNotFound();
+            }
+            return View(leagueCredentialLogo);
+        }
+
+        [Authorize(Roles = "LeagueManager")]
+        [HttpPost, ActionName("DeleteLeagueCredentialLogo")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmedLeagueCredentialLogo(int id)
+        {
+            var leagueCredentialLogo = await db.LeagueCredentialLogoes.FindAsync(id);
+            db.LeagueCredentialLogoes.Remove(leagueCredentialLogo);
+            await db.SaveChangesAsync();
+            return RedirectToAction("SetupCardLeagueLeagueManager", new { id = leagueCredentialLogo.LeagueId });
         }
 
 

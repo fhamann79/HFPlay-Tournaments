@@ -116,9 +116,9 @@
                 @Html.DisplayFor(modelItem => item.IsDefault)
             </td>
             <td>
-                @Html.ActionLink("Editar", "EditLeagueCredencialLogo", new { id = item.LeagueCredentialLogoId }) |
-                @Html.ActionLink("Predeterminado", "DefaultLeagueCredencialLogo", new { id = item.LeagueCredentialLogoId }) |
-                @Html.ActionLink("Borrar", "DeleteLeagueCredencialLogo", new { id = item.LeagueCredentialLogoId })
+                @Html.ActionLink("Editar", "EditLeagueCredentialLogo", new { id = item.LeagueCredentialLogoId }, new { @class = "btn btn-warning" }) |
+                @Html.ActionLink("Predeterminado", "DefaultLeagueCredentialLogo", new { id = item.LeagueCredentialLogoId }, new { @class = "btn btn-primary" }) |
+                @Html.ActionLink("Borrar", "DeleteLeagueCredentialLogo", new { id = item.LeagueCredentialLogoId }, new { @class = "btn btn-danger" })
             </td>
         </tr>
     }

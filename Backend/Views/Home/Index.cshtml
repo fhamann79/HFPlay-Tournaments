@@ -129,7 +129,7 @@
                         <tr>
                             <th>
 
-                                <h4>Eres dirigente en:</h4>
+                                <h4>Ligas - Eres dirigente en:</h4>
 
                             </th>
                         </tr>
@@ -175,7 +175,7 @@
                         <tr>
                             <th>
 
-                                <h4>Eres dirigente en:</h4>
+                                <h4>Equipos - Eres dirigente en:</h4>
 
                             </th>
                         </tr>
@@ -943,14 +943,14 @@ else
                             <br>
                             <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
                             <p>
-                                @Html.DisplayFor(modelItem => item.Content)
+                                @Html.DisplayFor(modelItem => item.Content)                              
                                 <br>
                                 @if (!string.IsNullOrEmpty(item.FacebookVideo))
                                 {
                                     <div class="facebook-responsive">
                                         <iframe src="@Url.Content(item.FacebookVideo)" width="560" height="315" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
                                     </div>
-                                    
+
                                 }
                                 <br>
                                 @if (!string.IsNullOrEmpty(item.Picture))

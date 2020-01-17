@@ -29,9 +29,9 @@ namespace Backend.Controllers
 
         private static ApplicationDbContext userContext = new ApplicationDbContext();
 
-        private int widthPhotoUser = 240;
+        private int widthPhotoUser = 120;
 
-        private int heigthPhotoUser = 360;
+        private int heigthPhotoUser = 160;
 
         #endregion
 
