@@ -81,5 +81,24 @@
     });
 
 
+    $("#UserId").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "/Generic/GetPlayers",
+                type: "POST",
+                dataType: "json",
+                data: { prefix: request.term },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return { label: item.FullDescription, value: item.UserId };
+                    }));
+
+                }
+            });
+        },
+        messages: {
+            noResults: "No hay resultados", results: "Si hay resultados"
+        }
+    });
 });
 

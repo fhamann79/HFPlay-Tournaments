@@ -15,6 +15,7 @@ namespace Domain
         [Range(1, 100,ErrorMessage = "El valor para {0} debe estar entre {1} y {2}.")]
         public int Number { get; set; }
 
+        [Required(ErrorMessage = "El campo Jugador es requerido")]
         [Display(Name = "Jugador")]
         public int UserId { get; set; }
 

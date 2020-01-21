@@ -456,7 +456,7 @@ namespace Backend.Controllers
 
             var teamPlayer = new TeamPlayer { TeamId = team.TeamId };
 
-            ViewBag.UserId = new SelectList(db.Users.OrderBy(u => u.LastName).ToList(), "UserId", "FullDescription");
+            //ViewBag.UserId = new SelectList(db.Users.OrderBy(u => u.LastName).ToList(), "UserId", "FullDescription");
 
             return View(teamPlayer);
 

@@ -1,5 +1,6 @@
 ﻿using Backend.Models;
 using Domain;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -16,6 +17,22 @@ namespace Backend.Controllers
     public class GenericController : Controller
     {
         private DataContextLocal db = new DataContextLocal();
+
+        [HttpPost]
+        public JsonResult GetPlayers(string prefix)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var users = from u in db.Users
+                        select u;
+            if (!String.IsNullOrEmpty(prefix))
+            {
+                users = users.Where(u => u.FirstName.ToUpper().Contains(prefix.ToUpper()) 
+                || u.LastName.ToUpper().Contains(prefix.ToUpper())
+                || u.IdentificationCard.ToUpper().Contains(prefix.ToUpper())
+                || u.Email.ToUpper().Contains(prefix.ToUpper()));
+            }
+            return Json(users.OrderBy(u => u.LastName), JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult GetTeams(int leagueId)
         {
