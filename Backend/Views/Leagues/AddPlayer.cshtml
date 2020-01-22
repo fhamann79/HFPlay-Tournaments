@@ -43,7 +43,9 @@
             <div class="col-md-10">
                 @*@Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })*@
                 @*@Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" } })*@
-                <input class="form-control" id="UserId" name="UserId">
+                @*<input class="form-control" id="UserId" name="UserId">*@
+                <input class="form-control" type="hidden" id="UserId" name="UserId">
+                <input class="form-control" id="SelectedUser" name="SelectedUser" placeholder="Buscar jugador..."/>
                 @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
             </div>
         </div>

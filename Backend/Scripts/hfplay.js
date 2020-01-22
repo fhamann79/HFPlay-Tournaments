@@ -81,7 +81,7 @@
     });
 
 
-    $("#UserId").autocomplete({
+    $("#SelectedUser").autocomplete({
         source: function (request, response) {
             $.ajax({
                 url: "/Generic/GetPlayers",
@@ -96,9 +96,23 @@
                 }
             });
         },
-        messages: {
-            noResults: "No hay resultados", results: "Si hay resultados"
+        minLength: 3,
+        focus: function (event, ui) {
+            $("#SelectedUser").val(ui.item.label);
+            return false;
+        },
+        select: function (event, ui) {
+            $("#SelectedUser").val(ui.item.label);
+            $("#UserId").val(ui.item.value);
+            return false;
         }
-    });
+
+    })
+    //.autocomplete("instance")._renderItem = function (ul, item) {
+    //        return $("<li>")
+    //            .append("<div>" + item.label + "<br>" + item.value + "</div>")
+    //            .appendTo(ul);
+    //    }
+    ;
 });
 
