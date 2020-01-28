@@ -74,6 +74,10 @@ namespace Backend.Controllers
             return View(teamPlayer);
         }
 
+
+
+
+
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> CardsTeamCPlayerAdmin(int? id)
         {
@@ -793,6 +797,39 @@ namespace Backend.Controllers
         #region LeagueManager
 
         [Authorize(Roles = "LeagueManager")]
+        public async Task<ActionResult> CardsPlayerLeagueManager(int? id)
+        {
+
+            //TODO: LeagueManager ACCESS
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var teamPlayer = await db.TeamPlayers.FindAsync(id);
+            if (teamPlayer == null)
+            {
+                return HttpNotFound();
+            }
+
+            var league = await db.Leagues.FindAsync(teamPlayer.Team.LeagueId);
+
+            var leagueCredentialLogo = db.LeagueCredentialLogoes
+                .Where(c => c.LeagueId == league.LeagueId && c.IsDefault == true)
+                .FirstOrDefault();
+
+            var credentialPlayerView = new CredentialPlayerView();
+            credentialPlayerView.TeamPlayer = teamPlayer;
+            credentialPlayerView.LeagueCredentialLogo = leagueCredentialLogo;
+
+            return View(credentialPlayerView);
+
+
+        }
+
+
+        [Authorize(Roles = "LeagueManager")]
         public async Task<ActionResult> DetailsTeamLeagueManager(int? id)
         {
             var userASPId = User.Identity.GetUserId();
@@ -981,10 +1018,10 @@ namespace Backend.Controllers
             var league = await db.Leagues.FindAsync(team.LeagueId);
 
             var leagueCredentialLogo = db.LeagueCredentialLogoes
-                .Where(c => c.LeagueId == league.LeagueId || c.IsDefault == true)
+                .Where(c => c.LeagueId == league.LeagueId && c.IsDefault == true)
                 .FirstOrDefault();
 
-            var credentialView = new CredentialView();
+            var credentialView = new CredentialTeamView();
             credentialView.Team = team;
             credentialView.LeagueCredentialLogo = leagueCredentialLogo;
 

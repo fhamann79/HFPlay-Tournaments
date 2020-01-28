@@ -6,10 +6,9 @@ using System.Web;
 
 namespace Backend.Models
 {
-    public class CredentialView
+    public class CredentialPlayerView
     {
-        public Team Team { get; set; }
+        public TeamPlayer TeamPlayer { get; set; }
         public LeagueCredentialLogo LeagueCredentialLogo { get; set; }
-
     }
 }
