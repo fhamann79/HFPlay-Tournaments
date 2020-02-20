@@ -12,7 +12,7 @@ namespace Domain
         public int TeamPlayerId { get; set; }
 
         [Display(Name = "Número")]
-        [Range(1, 100,ErrorMessage = "El valor para {0} debe estar entre {1} y {2}.")]
+        [Range(1, 1000,ErrorMessage = "El valor para {0} debe estar entre {1} y {2}.")]
         public int Number { get; set; }
 
         [Required(ErrorMessage = "El campo Jugador es requerido")]

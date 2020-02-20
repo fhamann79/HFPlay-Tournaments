@@ -460,8 +460,6 @@ namespace Backend.Controllers
 
             var teamPlayer = new TeamPlayer { TeamId = team.TeamId };
 
-            //ViewBag.UserId = new SelectList(db.Users.OrderBy(u => u.LastName).ToList(), "UserId", "FullDescription");
-
             return View(teamPlayer);
 
 
@@ -906,6 +904,8 @@ namespace Backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateLeagueCredentialLogo(LeagueCredentialLogoView view)
         {
+
+            //TODO: Control access LeagueManager
             if (ModelState.IsValid)
             {
                 var picLeagueMainLogoView = string.Empty;
@@ -952,9 +952,7 @@ namespace Backend.Controllers
 
             return View(view);
         }
-
-
-
+               
         [Authorize(Roles = "LeagueManager")]
         public ActionResult IndexLeaguesLeagueManager()
         {
@@ -1054,6 +1052,102 @@ namespace Backend.Controllers
             db.LeagueCredentialLogoes.Remove(leagueCredentialLogo);
             await db.SaveChangesAsync();
             return RedirectToAction("SetupCardLeagueLeagueManager", new { id = leagueCredentialLogo.LeagueId });
+        }
+
+        [Authorize(Roles = "LeagueManager")]
+        public async Task<ActionResult> AddPlayerTeamLeagueManager(int? id)
+        {
+            //TODO: LeagueManager Control
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var team = await db.Teams.FindAsync(id);
+
+            if (team == null)
+            {
+                return HttpNotFound();
+            }
+
+            var teamPlayer = new TeamPlayer { TeamId = team.TeamId };
+
+            return View(teamPlayer);
+
+
+        }
+
+        [Authorize(Roles = "LeagueManager")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddPlayerTeamLeagueManager(TeamPlayer teamPlayer)
+        {
+
+            //TODO: LeagueManager Control
+            if (ModelState.IsValid)
+            {
+                teamPlayer.IsAccepted = true;
+                teamPlayer.IsActive = true;
+                db.TeamPlayers.Add(teamPlayer);
+                await db.SaveChangesAsync();
+
+                var user = db.Users.Where(u => u.UserId == teamPlayer.UserId).FirstOrDefault();
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+                userManager.AddToRole(user.UserASPId, "Player");
+
+                return RedirectToAction("DetailsTeamLeagueManager", new { id = teamPlayer.TeamId });
+            }
+
+            ViewBag.UserId = new SelectList(db.Users.OrderBy(u => u.LastName).ToList(), "UserId", "FullDescription", teamPlayer.UserId);
+            return View(teamPlayer);
+        }
+
+        [Authorize(Roles = "LeagueManager")]
+        public async Task<ActionResult> DeletePlayerTeamLeagueManager(int? id, bool? saveChangesError = false)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewBag.ErrorMessage = MessageHelper.DeleteError();
+            }
+
+            var teamPlayer = await db.TeamPlayers.FindAsync(id);
+
+            return View(teamPlayer);
+        }
+
+        [Authorize(Roles = "LeagueManager")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeletePlayerTeamLeagueManager(int id)
+        {
+            var teamPlayer = await db.TeamPlayers.FindAsync(id);
+            try
+            {
+                db.TeamPlayers.Remove(teamPlayer);
+                await db.SaveChangesAsync();
+
+                var players = db.TeamPlayers.Where(tm => tm.UserId == teamPlayer.UserId).ToList();
+
+                if (players.Count == 0)
+                {
+                    var user = db.Users.Where(u => u.UserId == teamPlayer.UserId).FirstOrDefault();
+                    var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+                    userManager.RemoveFromRole(user.UserASPId, "Player");
+                }
+
+                TempData["SuccessMessage"] = MessageHelper.DeleteOk();
+            }
+            catch (DataException/* dex */)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                return RedirectToAction("DeletePlayerTeamLeagueManager", new { id = id, saveChangesError = true });
+            }
+            return RedirectToAction("DetailsTeamLeagueManager", new { id = teamPlayer.TeamId });
         }
 
 

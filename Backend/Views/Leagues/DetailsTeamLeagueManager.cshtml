@@ -130,9 +130,9 @@ else
                     @Html.DisplayFor(modelItem => item.IsActive)
                 </td>
                 <td>
-                    @Html.ActionLink("Editar", "EditPlayerLeagueManager", new { id = item.TeamPlayerId }, new { @class = "btn btn-warning" }) |
-                    @Html.ActionLink("Detalles", "DetailsPlayerLeagueManager", new { id = item.TeamPlayerId }, new { @class = "btn btn-info" }) |
-                    @Html.ActionLink("Borrar", "DeletePlayerLeagueManager", new { id = item.TeamPlayerId }, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("Editar", "EditPlayerTeamLeagueManager", new { id = item.TeamPlayerId }, new { @class = "btn btn-warning" }) |
+                    @Html.ActionLink("Detalles", "DetailsPlayerTeamLeagueManager", new { id = item.TeamPlayerId }, new { @class = "btn btn-info" }) |
+                    @Html.ActionLink("Borrar", "DeletePlayerTeamLeagueManager", new { id = item.TeamPlayerId }, new { @class = "btn btn-danger" })
                     @Html.ActionLink("Carnet", "CardsPlayerLeagueManager", new { id = item.TeamPlayerId }, new { @class = "btn btn-success", target = "_blank" })
 
                 </td>
