@@ -26,6 +26,8 @@ namespace Domain
 
         public DbSet<TournamentGroup> TournamentGroups { get; set; }
 
+        public DbSet<Tenant> Tenants { get; set; }
+
         public System.Data.Entity.DbSet<Domain.MatchTeamPlayerCard> MatchTeamPlayerCards { get; set; }
 
         public System.Data.Entity.DbSet<Domain.CardType> CardTypes { get; set; }
