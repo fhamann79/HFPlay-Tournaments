@@ -221,6 +221,7 @@
     <Compile Include="Controllers\TeamPlayersController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Controllers\TournamentGroupsController.cs" />
+    <Compile Include="Controllers\TenantDiagnosticsController.cs" />
     <Compile Include="Controllers\TournamentsController.cs" />
     <Compile Include="Controllers\TournamentTeamsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -272,6 +273,9 @@
     <Compile Include="Models\UserView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Tenancy\ITenantContext.cs" />
+    <Compile Include="Tenancy\TenantContext.cs" />
+    <Compile Include="Tenancy\TenantResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ads.txt" />
