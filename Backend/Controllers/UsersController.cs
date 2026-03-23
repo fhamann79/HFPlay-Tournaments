@@ -140,6 +140,8 @@ namespace Backend.Controllers
                 Points = user.Points,
                 Predictions = user.Predictions,
                 TeamPlayers = user.TeamPlayers,
+                Tenant = user.Tenant,
+                TenantId = user.TenantId,
                 UserASPId = user.UserASPId,
                 UserGroups = user.UserGroups,
                 UserId = user.UserId,
@@ -503,6 +505,7 @@ namespace Backend.Controllers
         {
             ViewBag.FavoriteLeagueId = new SelectList(db.Leagues.OrderBy(l => l.Name), "LeagueId", "Name");
             ViewBag.FavoriteTeamId = new SelectList(db.Teams, "TeamId", "Name");
+            ViewBag.TenantId = GetTenantsSelectList();
             ViewBag.UserTypeId = new SelectList(db.UserTypes.OrderBy(ut => ut.Name), "UserTypeId", "Name");
             return View();
         }
@@ -561,6 +564,7 @@ namespace Backend.Controllers
 
             ViewBag.FavoriteLeagueId = new SelectList(db.Leagues.OrderBy(l => l.Name), "LeagueId", "Name", view.FavoriteLeagueId);
             ViewBag.FavoriteTeamId = new SelectList(db.Teams, "TeamId", "Name", view.FavoriteTeamId);
+            ViewBag.TenantId = GetTenantsSelectList(view.TenantId);
             ViewBag.UserTypeId = new SelectList(db.UserTypes, "UserTypeId", "Name", view.UserTypeId);
             return View(view);
         }
@@ -585,6 +589,7 @@ namespace Backend.Controllers
                 Predictions = view.Predictions,
                 UserGroups = view.UserGroups,
                 UserId = view.UserId,
+                TenantId = view.TenantId,
                 UserType = view.UserType,
                 UserTypeId = view.UserTypeId,
                 Birthdate = Convert.ToDateTime(string.Format("{0}", view.BirthDateString)),
@@ -615,6 +620,7 @@ namespace Backend.Controllers
 
             ViewBag.FavoriteLeagueId = new SelectList(CombosHelper.GetLeagues().OrderBy(l => l.Name), "LeagueId", "Name", user.FavoriteTeam.LeagueId);
             ViewBag.FavoriteTeamId = new SelectList(CombosHelper.GetTeams(user.FavoriteTeam.LeagueId), "TeamId", "Name", user.FavoriteTeam.TeamId);
+            ViewBag.TenantId = GetTenantsSelectList(user.TenantId);
 
             return View(view);
             
@@ -701,8 +707,29 @@ namespace Backend.Controllers
 
             ViewBag.FavoriteLeagueId = new SelectList(CombosHelper.GetLeagues().OrderBy(l => l.Name), "LeagueId", "Name", view.FavoriteLeagueId);
             ViewBag.FavoriteTeamId = new SelectList(CombosHelper.GetTeams(view.FavoriteLeagueId), "TeamId", "Name", view.FavoriteTeamId);
+            ViewBag.TenantId = GetTenantsSelectList(view.TenantId);
 
             return View(view);
+        }
+
+        private SelectList GetTenantsSelectList(int? selectedTenantId = null)
+        {
+            var tenants = db.Tenants
+                .Where(t => t.IsActive)
+                .OrderBy(t => t.Name)
+                .ToList();
+
+            if (selectedTenantId.HasValue && !tenants.Any(t => t.TenantId == selectedTenantId.Value))
+            {
+                var selectedTenant = db.Tenants.Find(selectedTenantId.Value);
+                if (selectedTenant != null)
+                {
+                    tenants.Add(selectedTenant);
+                    tenants = tenants.OrderBy(t => t.Name).ToList();
+                }
+            }
+
+            return new SelectList(tenants, "TenantId", "Name", selectedTenantId);
         }
 
 
