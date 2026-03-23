@@ -75,6 +75,9 @@ namespace Domain
 
         public string UserASPId { get; set; }
 
+        [Display(Name = "Tenant")]
+        public int? TenantId { get; set; }
+
         [NotMapped]
         [Display(Name = "Nombre Completo")]
         public string FullName { get { return string.Format("{0} {1}", LastName, FirstName); } }
@@ -86,6 +89,8 @@ namespace Domain
         public virtual Team FavoriteTeam { get; set; }
 
         public virtual UserType UserType { get; set; }
+
+        public virtual Tenant Tenant { get; set; }
         
         public virtual ICollection<Group> UserGroups { get; set; }
 

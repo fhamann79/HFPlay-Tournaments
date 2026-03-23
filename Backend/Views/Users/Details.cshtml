@@ -27,6 +27,14 @@
         </dd>
 
         <dt>
+            Tenant
+        </dt>
+
+        <dd>
+            @(Model.Tenant != null ? Model.Tenant.Name : "Sin tenant")
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.FirstName)
         </dt>
 

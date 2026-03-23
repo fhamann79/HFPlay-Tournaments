@@ -9,6 +9,10 @@ namespace Domain
             HasRequired(o => o.FavoriteTeam)
                 .WithMany(m => m.Fans)
                 .HasForeignKey(m => m.FavoriteTeamId);
+
+            HasOptional(o => o.Tenant)
+                .WithMany()
+                .HasForeignKey(o => o.TenantId);
         }
 
     }
